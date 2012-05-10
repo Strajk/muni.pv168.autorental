@@ -227,4 +227,33 @@ public class CustomerManagerImpl implements CustomerManager {
             throw new ValidationException("Last name is null");
         }
     }
+
+    @Override
+    public int countCustomers() {
+	LOGGER.log(Level.INFO, "Counting all customers...");
+	checkDataSource();
+	
+	Connection conn = null;
+	PreparedStatement st = null;
+	try {
+	    conn = dataSource.getConnection();
+	    conn.setAutoCommit(false); // Temporary turn autocommit mode off.
+	    st = conn.prepareStatement("SELECT COUNT(*) AS count FROM customers");
+	    
+	    ResultSet rs = st.executeQuery();
+	    if (rs.next()) {
+		int result = rs.getInt("count");
+		conn.commit();
+		return result;
+	    } else {
+		return 0;
+	    }
+	} catch (SQLException ex) {
+	    String msg = "Counting all customers failed";
+	    LOGGER.log(Level.SEVERE, msg, ex);
+	    throw new ServiceFailureException(msg, ex);
+	} finally {
+	    DBUtils.closeQuietly(conn, st);
+	}
+    }
 }

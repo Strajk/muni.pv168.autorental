@@ -224,4 +224,33 @@ public class CarManagerImpl implements CarManager {
             throw new ValidationException("Plate is empty");
         }
     }
+
+    @Override
+    public int countCars() {
+	LOGGER.log(Level.INFO, "Counting all cars...");
+	checkDataSource();
+	
+	Connection conn = null;
+	PreparedStatement st = null;
+	try {
+	    conn = dataSource.getConnection();
+	    conn.setAutoCommit(false); // Temporary turn autocommit mode off.
+	    st = conn.prepareStatement("SELECT COUNT(*) AS count FROM cars");
+	    
+	    ResultSet rs = st.executeQuery();
+	    if (rs.next()) {
+		int result = rs.getInt("count");
+		conn.commit();
+		return result;
+	    } else {
+		return 0;
+	    }
+	} catch (SQLException ex) {
+	    String msg = "Counting all cars failed";
+	    LOGGER.log(Level.SEVERE, msg, ex);
+	    throw new ServiceFailureException(msg, ex);
+	} finally {
+	    DBUtils.closeQuietly(conn, st);
+	}
+    }
 }

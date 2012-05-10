@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.Car;
@@ -10,13 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author strajk
- */
-public class CarsTableModel extends AbstractTableModel {
+public class CarTableModel extends AbstractTableModel {
  
     private List<Car> cars = new ArrayList<Car>();
+    private static enum COLUMNS {
+        ID, MODEL, PLATE, FEE
+    }
  
     @Override
     public int getRowCount() {
@@ -25,7 +20,7 @@ public class CarsTableModel extends AbstractTableModel {
  
     @Override
     public int getColumnCount() {
-        return 5;
+        return COLUMNS.values().length;
     }
     
     @Override
@@ -38,8 +33,6 @@ public class CarsTableModel extends AbstractTableModel {
 		return String.class;
 	    case 3:
 		return BigDecimal.class;
-	    case 4:
-		return String.class;
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
@@ -48,14 +41,14 @@ public class CarsTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Car car = cars.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
+        switch (COLUMNS.values()[columnIndex]) {
+            case ID:
                 return car.getId();
-            case 1:
+            case MODEL:
                 return car.getModel();
-            case 2:
+            case PLATE:
                 return car.getPlate();
-            case 3:
+            case FEE:
                 return car.getFee();
             default:
                 throw new IllegalArgumentException("columnIndex");
@@ -68,18 +61,28 @@ public class CarsTableModel extends AbstractTableModel {
 	fireTableRowsInserted(lastRow, lastRow);
     }
     
+    public void removeCar(Car car) {
+	cars.remove(car);
+	int lastRow = cars.size() - 1;
+	fireTableRowsInserted(lastRow, lastRow);
+    }
+    
+     public List<Car> getAllCars() {
+	return cars;
+    }
+
     
     @Override
     public String getColumnName(int columnIndex) {
-	switch (columnIndex) {
-	    case 0:
-		return "Id"; // Internacionalizace  v TableCellRenderer 
-	    case 1:
-		return "Model";
-	    case 2:
-		return "Plate";
-	    case 3:
-		return "Fee";
+	switch (COLUMNS.values()[columnIndex]) {
+	    case ID:
+		return "id";
+	    case MODEL:
+		return "model";
+	    case PLATE:
+		return "plate";
+	    case FEE:
+		return "fee";
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
@@ -88,17 +91,17 @@ public class CarsTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 	Car car = cars.get(rowIndex);
-	switch (columnIndex) {
-	    case 0:
+	switch (COLUMNS.values()[columnIndex]) {
+	    case ID:
 		car.setId((Long) aValue);
 		break;
-	    case 1:
+	    case MODEL:
 		car.setModel((String) aValue);
 		break;
-	    case 2:
+	    case PLATE:
 		car.setPlate((String) aValue);
 		break;
-	    case 3:
+	    case FEE:
 		car.setFee(new BigDecimal((String)aValue));
 		break;
 	    default:

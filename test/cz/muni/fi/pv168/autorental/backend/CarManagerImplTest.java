@@ -1,8 +1,8 @@
 package cz.muni.fi.pv168.autorental.backend;
 
 import cz.muni.fi.pv168.autorental.helpers.Constructors;
+import cz.muni.fi.pv168.autorental.helpers.Sampler;
 import cz.muni.fi.pv168.common.DBUtils;
-import cz.muni.fi.pv168.common.IllegalEntityException;
 import java.util.Collections;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -211,6 +211,22 @@ public class CarManagerImplTest {
         
         assertEquals(expected, returned);
         assertDeepEquals(expected, returned);
+    }
+    
+    @Test
+    public void testCountCars() {
+         System.out.println("Test: CarManager.countCars()");
+        
+        assertTrue(carManager.findAllCars().isEmpty());
+        
+        carManager.addCar(Sampler.createSampleCar());
+        carManager.addCar(Sampler.createSampleCar());
+        carManager.addCar(Sampler.createSampleCar());
+        carManager.addCar(Sampler.createSampleCar());
+        
+        int returned = carManager.countCars();
+        assertEquals(returned, 4);
+        
     }
     
     private void assertDeepEquals(Car expected, Car actual) {

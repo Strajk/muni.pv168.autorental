@@ -1,3 +1,6 @@
+
+setBundle basename="cz.muni.fi.pa165.cv4.Texty
+
 NumberFormat.getCurrencyInstance(cestina)
 NumberFormat usaFormat = NumberFormat.getCurrencyInstance(usa)
 

@@ -13,4 +13,5 @@ public interface CarManager {
     public void updateCar(Car car);
     public Car findCarById(Long id);
     public List<Car> findAllCars();
+    public int countCars();
 }

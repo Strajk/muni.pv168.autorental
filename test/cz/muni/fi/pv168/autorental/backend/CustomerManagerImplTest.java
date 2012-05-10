@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.autorental.backend;
 
 import cz.muni.fi.pv168.autorental.helpers.Constructors;
+import cz.muni.fi.pv168.autorental.helpers.Sampler;
 import cz.muni.fi.pv168.common.DBUtils;
 import java.sql.Connection;
 import java.sql.Date;
@@ -212,6 +213,22 @@ public class CustomerManagerImplTest {
         
         assertEquals(expected, actual);
         assertDeepEquals(expected, actual);
+    }
+    
+    @Test
+    public void testCountCustomers() {
+         System.out.println("Test: CarManager.countCars()");
+        
+        assertTrue(customerManager.findAllCustomers().isEmpty());
+        
+        customerManager.addCustomer(Sampler.createSampleCustomer());
+        customerManager.addCustomer(Sampler.createSampleCustomer());
+        customerManager.addCustomer(Sampler.createSampleCustomer());
+        customerManager.addCustomer(Sampler.createSampleCustomer());
+        
+        int returned = customerManager.countCustomers();
+        assertEquals(returned, 4);
+        
     }
     
    

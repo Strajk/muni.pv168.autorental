@@ -27,40 +27,16 @@ public class AutorentalFrame extends javax.swing.JFrame {
         jRentsTitleLabel = new javax.swing.JLabel();
         jRentsScrollPane = new javax.swing.JScrollPane();
         jRentsTable = new javax.swing.JTable();
-        jRentsStatsPanel = new javax.swing.JPanel();
-        jRentsStatsTotalLabel = new javax.swing.JLabel();
-        jRentsStatsTotalValue = new javax.swing.JLabel();
-        jRentsStatsMonthLabel = new javax.swing.JLabel();
-        jRentsStatsMonthValue = new javax.swing.JLabel();
-        jRentsStatsWeekLabel = new javax.swing.JLabel();
-        jRentsStatsWeekValue = new javax.swing.JLabel();
-        jRentsAddButton = new javax.swing.JButton();
         jRentsAddButtonSample = new javax.swing.JButton();
         jCarsSectionPanel = new javax.swing.JPanel();
         jCarsTitleLabel = new javax.swing.JLabel();
         jCarsScrollPane = new javax.swing.JScrollPane();
         jCarsTable = new javax.swing.JTable();
-        jCarsStatsPanel = new javax.swing.JPanel();
-        jCarsStatsTotalLabel = new javax.swing.JLabel();
-        jCarsStatsTotalValue = new javax.swing.JLabel();
-        jCarsStatsMonthLabel = new javax.swing.JLabel();
-        jCarsStatsMonthValue = new javax.swing.JLabel();
-        jCarsStatsWeekLabel = new javax.swing.JLabel();
-        jCarsStatsWeekValue = new javax.swing.JLabel();
-        jCarsAddButton = new javax.swing.JButton();
         jCarsAddButtonSample = new javax.swing.JButton();
         jCustomersSectionPanel = new javax.swing.JPanel();
         jCustomersTitleLabel = new javax.swing.JLabel();
         jCustomersScrollPane = new javax.swing.JScrollPane();
         jCustomersTable = new javax.swing.JTable();
-        jCustomersStatsPanel = new javax.swing.JPanel();
-        jCustomersStatsTotalLabel = new javax.swing.JLabel();
-        jCustomersStatsTotalValue = new javax.swing.JLabel();
-        jCustomersStatsMonthLabel = new javax.swing.JLabel();
-        jCustomersStatsMonthValue = new javax.swing.JLabel();
-        jCustomersStatsWeekLabel = new javax.swing.JLabel();
-        jCustomersStatsWeekValue = new javax.swing.JLabel();
-        jCustomersAddButton = new javax.swing.JButton();
         jCustomersAddButtonSample = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuApp = new javax.swing.JMenu();
@@ -119,66 +95,6 @@ public class AutorentalFrame extends javax.swing.JFrame {
         jRentsTable.getColumnModel().getColumn(0).setResizable(false);
         jRentsTable.getColumnModel().getColumn(5).setResizable(false);
 
-        jRentsStatsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stats"));
-
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("AutorentalBundle"); // NOI18N
-        jRentsStatsTotalLabel.setText(bundle1.getString("TOTAL")); // NOI18N
-
-        jRentsStatsTotalValue.setText(bundle.getString("JLABEL5_2")); // NOI18N
-
-        jRentsStatsMonthLabel.setText(bundle.getString("LAST WEEK")); // NOI18N
-
-        jRentsStatsMonthValue.setText(bundle.getString("JLABEL6_2")); // NOI18N
-
-        jRentsStatsWeekLabel.setText(bundle.getString("LAST MONTH")); // NOI18N
-
-        jRentsStatsWeekValue.setText(bundle.getString("JLABEL7_2")); // NOI18N
-
-        org.jdesktop.layout.GroupLayout jRentsStatsPanelLayout = new org.jdesktop.layout.GroupLayout(jRentsStatsPanel);
-        jRentsStatsPanel.setLayout(jRentsStatsPanelLayout);
-        jRentsStatsPanelLayout.setHorizontalGroup(
-            jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jRentsStatsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(jRentsStatsWeekLabel)
-                    .add(jRentsStatsMonthLabel)
-                    .add(jRentsStatsTotalLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRentsStatsTotalValue)
-                    .add(jRentsStatsMonthValue)
-                    .add(jRentsStatsWeekValue))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jRentsStatsPanelLayout.setVerticalGroup(
-            jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jRentsStatsPanelLayout.createSequentialGroup()
-                .add(jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jRentsStatsTotalLabel)
-                    .add(jRentsStatsTotalValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jRentsStatsMonthLabel)
-                    .add(jRentsStatsMonthValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jRentsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jRentsStatsWeekLabel)
-                    .add(jRentsStatsWeekValue))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        java.util.ResourceBundle bundle2 = java.util.ResourceBundle.getBundle("AutorentalFinalBundle"); // NOI18N
-        jRentsStatsMonthLabel.getAccessibleContext().setAccessibleName(bundle2.getString("STATS_MONTH")); // NOI18N
-        jRentsStatsWeekLabel.getAccessibleContext().setAccessibleName("<LAST_WEEK>");
-
-        jRentsAddButton.setText(bundle1.getString("ADD RENT")); // NOI18N
-        jRentsAddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRentsAddButtonActionPerformed(evt);
-            }
-        });
-
         jRentsAddButtonSample.setText("Add sample car");
         jRentsAddButtonSample.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,31 +109,21 @@ public class AutorentalFrame extends javax.swing.JFrame {
             .add(jRentsSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(jRentsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRentsSectionPanelLayout.createSequentialGroup()
-                        .add(jRentsTitleLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jRentsAddButton))
+                    .add(jRentsTitleLabel)
                     .add(jRentsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 800, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jRentsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRentsSectionPanelLayout.createSequentialGroup()
-                        .add(jRentsAddButtonSample, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(jRentsStatsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .add(jRentsAddButtonSample, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         jRentsSectionPanelLayout.setVerticalGroup(
             jRentsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jRentsSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jRentsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRentsTitleLabel)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jRentsAddButton))
+                .add(jRentsTitleLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jRentsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jRentsSectionPanelLayout.createSequentialGroup()
-                        .add(jRentsStatsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(100, 100, 100)
                         .add(jRentsAddButtonSample))
                     .add(jRentsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(234, Short.MAX_VALUE))
@@ -232,64 +138,9 @@ public class AutorentalFrame extends javax.swing.JFrame {
 
         jCarsScrollPane.setPreferredSize(new java.awt.Dimension(700, 404));
 
-        jCarsTable.setModel(new CarsTableModel());
+        jCarsTable.setModel(new CarTableModel());
         // jCarsTable.setDefaultRenderer(Availability.class, new AvailabilityCellRenderer());
         jCarsScrollPane.setViewportView(jCarsTable);
-
-        jCarsStatsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stats"));
-
-        jCarsStatsTotalLabel.setText(bundle1.getString("TOTAL")); // NOI18N
-
-        jCarsStatsTotalValue.setText(bundle.getString("JLABEL5_1")); // NOI18N
-
-        jCarsStatsMonthLabel.setText(bundle.getString("LAST WEEK_1")); // NOI18N
-
-        jCarsStatsMonthValue.setText(bundle.getString("JLABEL6_1")); // NOI18N
-
-        jCarsStatsWeekLabel.setText(bundle.getString("LAST MONTH_1")); // NOI18N
-
-        jCarsStatsWeekValue.setText(bundle.getString("JLABEL7_1")); // NOI18N
-
-        org.jdesktop.layout.GroupLayout jCarsStatsPanelLayout = new org.jdesktop.layout.GroupLayout(jCarsStatsPanel);
-        jCarsStatsPanel.setLayout(jCarsStatsPanelLayout);
-        jCarsStatsPanelLayout.setHorizontalGroup(
-            jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jCarsStatsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(jCarsStatsWeekLabel)
-                    .add(jCarsStatsMonthLabel)
-                    .add(jCarsStatsTotalLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCarsStatsWeekValue)
-                    .add(jCarsStatsTotalValue)
-                    .add(jCarsStatsMonthValue))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jCarsStatsPanelLayout.setVerticalGroup(
-            jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jCarsStatsPanelLayout.createSequentialGroup()
-                .add(jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCarsStatsTotalLabel)
-                    .add(jCarsStatsTotalValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCarsStatsMonthLabel)
-                    .add(jCarsStatsMonthValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCarsStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCarsStatsWeekLabel)
-                    .add(jCarsStatsWeekValue))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jCarsAddButton.setText(bundle.getString("ADD RENT")); // NOI18N
-        jCarsAddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCarsAddButtonActionPerformed(evt);
-            }
-        });
 
         jCarsAddButtonSample.setText("Add sample car");
         jCarsAddButtonSample.addActionListener(new java.awt.event.ActionListener() {
@@ -305,32 +156,22 @@ public class AutorentalFrame extends javax.swing.JFrame {
             .add(jCarsSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(jCarsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCarsSectionPanelLayout.createSequentialGroup()
-                        .add(jCarsTitleLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jCarsAddButton))
+                    .add(jCarsTitleLabel)
                     .add(jCarsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 800, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCarsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCarsStatsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jCarsSectionPanelLayout.createSequentialGroup()
-                        .add(jCarsAddButtonSample)
-                        .add(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .add(jCarsAddButtonSample)
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         jCarsSectionPanelLayout.setVerticalGroup(
             jCarsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jCarsSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jCarsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCarsTitleLabel)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jCarsAddButton))
+                .add(jCarsTitleLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jCarsSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jCarsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jCarsSectionPanelLayout.createSequentialGroup()
-                        .add(jCarsStatsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(100, 100, 100)
                         .add(jCarsAddButtonSample)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -357,60 +198,6 @@ public class AutorentalFrame extends javax.swing.JFrame {
         ));
         jCustomersScrollPane.setViewportView(jCustomersTable);
 
-        jCustomersStatsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stats"));
-
-        jCustomersStatsTotalLabel.setText(bundle1.getString("TOTAL")); // NOI18N
-
-        jCustomersStatsTotalValue.setText(bundle.getString("JLABEL5")); // NOI18N
-
-        jCustomersStatsMonthLabel.setText(bundle.getString("LAST WEEK_2")); // NOI18N
-
-        jCustomersStatsMonthValue.setText(bundle.getString("JLABEL6")); // NOI18N
-
-        jCustomersStatsWeekLabel.setText(bundle.getString("LAST MONTH_2")); // NOI18N
-
-        jCustomersStatsWeekValue.setText(bundle.getString("JLABEL7")); // NOI18N
-
-        org.jdesktop.layout.GroupLayout jCustomersStatsPanelLayout = new org.jdesktop.layout.GroupLayout(jCustomersStatsPanel);
-        jCustomersStatsPanel.setLayout(jCustomersStatsPanelLayout);
-        jCustomersStatsPanelLayout.setHorizontalGroup(
-            jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jCustomersStatsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jCustomersStatsWeekLabel)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jCustomersStatsMonthLabel)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jCustomersStatsTotalLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCustomersStatsTotalValue)
-                    .add(jCustomersStatsMonthValue)
-                    .add(jCustomersStatsWeekValue))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jCustomersStatsPanelLayout.setVerticalGroup(
-            jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jCustomersStatsPanelLayout.createSequentialGroup()
-                .add(jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCustomersStatsTotalLabel)
-                    .add(jCustomersStatsTotalValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCustomersStatsMonthLabel)
-                    .add(jCustomersStatsMonthValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCustomersStatsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jCustomersStatsWeekLabel)
-                    .add(jCustomersStatsWeekValue)))
-        );
-
-        jCustomersAddButton.setText(bundle.getString("ADD RENT_1")); // NOI18N
-        jCustomersAddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCustomersAddButtonActionPerformed(evt);
-            }
-        });
-
         jCustomersAddButtonSample.setText("Add sample car");
         jCustomersAddButtonSample.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,31 +212,21 @@ public class AutorentalFrame extends javax.swing.JFrame {
             .add(jCustomersSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(jCustomersSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCustomersSectionPanelLayout.createSequentialGroup()
-                        .add(jCustomersTitleLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jCustomersAddButton))
+                    .add(jCustomersTitleLabel)
                     .add(jCustomersScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 800, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCustomersSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCustomersStatsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jCustomersSectionPanelLayout.createSequentialGroup()
-                        .add(jCustomersAddButtonSample)
-                        .add(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .add(jCustomersAddButtonSample)
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         jCustomersSectionPanelLayout.setVerticalGroup(
             jCustomersSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jCustomersSectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jCustomersSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jCustomersTitleLabel)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jCustomersAddButton))
+                .add(jCustomersTitleLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jCustomersSectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jCustomersSectionPanelLayout.createSequentialGroup()
-                        .add(jCustomersStatsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(94, 94, 94)
                         .add(jCustomersAddButtonSample))
                     .add(jCustomersScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -500,20 +277,8 @@ public class AutorentalFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRentsAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRentsAddButtonActionPerformed
-	JOptionPane.showMessageDialog(null, java.util.ResourceBundle.getBundle("AutorentalBundle").getString("TEST"));
-    }//GEN-LAST:event_jRentsAddButtonActionPerformed
-
-    private void jCarsAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCarsAddButtonActionPerformed
-	// TODO add your handling code here:
-    }//GEN-LAST:event_jCarsAddButtonActionPerformed
-
-    private void jCustomersAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCustomersAddButtonActionPerformed
-	// TODO add your handling code here:
-    }//GEN-LAST:event_jCustomersAddButtonActionPerformed
-
     private void jCarsAddButtonSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCarsAddButtonSampleActionPerformed
-	CarsTableModel model = (CarsTableModel) jCarsTable.getModel();
+	CarTableModel model = (CarTableModel) jCarsTable.getModel();
     }//GEN-LAST:event_jCarsAddButtonSampleActionPerformed
 
     private void jRentsAddButtonSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRentsAddButtonSampleActionPerformed
@@ -563,31 +328,15 @@ public class AutorentalFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jCarsAddButton;
     private javax.swing.JButton jCarsAddButtonSample;
     private javax.swing.JScrollPane jCarsScrollPane;
     private javax.swing.JPanel jCarsSectionPanel;
-    private javax.swing.JLabel jCarsStatsMonthLabel;
-    private javax.swing.JLabel jCarsStatsMonthValue;
-    private javax.swing.JPanel jCarsStatsPanel;
-    private javax.swing.JLabel jCarsStatsTotalLabel;
-    private javax.swing.JLabel jCarsStatsTotalValue;
-    private javax.swing.JLabel jCarsStatsWeekLabel;
-    private javax.swing.JLabel jCarsStatsWeekValue;
     private javax.swing.JTable jCarsTable;
     private javax.swing.JLabel jCarsTitleLabel;
     private javax.swing.JPanel jContentPanel;
-    private javax.swing.JButton jCustomersAddButton;
     private javax.swing.JButton jCustomersAddButtonSample;
     private javax.swing.JScrollPane jCustomersScrollPane;
     private javax.swing.JPanel jCustomersSectionPanel;
-    private javax.swing.JLabel jCustomersStatsMonthLabel;
-    private javax.swing.JLabel jCustomersStatsMonthValue;
-    private javax.swing.JPanel jCustomersStatsPanel;
-    private javax.swing.JLabel jCustomersStatsTotalLabel;
-    private javax.swing.JLabel jCustomersStatsTotalValue;
-    private javax.swing.JLabel jCustomersStatsWeekLabel;
-    private javax.swing.JLabel jCustomersStatsWeekValue;
     private javax.swing.JTable jCustomersTable;
     private javax.swing.JLabel jCustomersTitleLabel;
     private javax.swing.JDialog jDialog;
@@ -598,17 +347,9 @@ public class AutorentalFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jMenuLanguageRadioCzech;
     private javax.swing.JRadioButtonMenuItem jMenuLanguageRadioEnglish;
     private javax.swing.JRadioButtonMenuItem jMenuLanguageRadioSlovak;
-    private javax.swing.JButton jRentsAddButton;
     private javax.swing.JButton jRentsAddButtonSample;
     private javax.swing.JScrollPane jRentsScrollPane;
     private javax.swing.JPanel jRentsSectionPanel;
-    private javax.swing.JLabel jRentsStatsMonthLabel;
-    private javax.swing.JLabel jRentsStatsMonthValue;
-    private javax.swing.JPanel jRentsStatsPanel;
-    private javax.swing.JLabel jRentsStatsTotalLabel;
-    private javax.swing.JLabel jRentsStatsTotalValue;
-    private javax.swing.JLabel jRentsStatsWeekLabel;
-    private javax.swing.JLabel jRentsStatsWeekValue;
     private javax.swing.JTable jRentsTable;
     private javax.swing.JLabel jRentsTitleLabel;
     // End of variables declaration//GEN-END:variables
