@@ -5,6 +5,7 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.*;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -96,6 +97,15 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialogCar = new javax.swing.JDialog();
+        jLabel4 = new javax.swing.JLabel();
+        jDialogCarInputModel = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jDialogCarInputPlate = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jDialogCarInputFee = new javax.swing.JTextField();
+        jDialogCarSubmit = new javax.swing.JButton();
+        jDialogCarCancel = new javax.swing.JButton();
         jPanelNorth = new javax.swing.JPanel();
         jLabelAppTitle = new javax.swing.JLabel();
         jPanelSouth = new javax.swing.JPanel();
@@ -119,6 +129,83 @@ public class GUI extends javax.swing.JFrame {
         jTableCustomers = new javax.swing.JTable();
         jScrollPaneCarsScroll = new javax.swing.JScrollPane();
         jTableCars = new javax.swing.JTable();
+
+        jLabel4.setText("Model");
+
+        jDialogCarInputModel.setPreferredSize(new java.awt.Dimension(200, 28));
+        jDialogCarInputModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDialogCarInputModelActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Plate");
+
+        jDialogCarInputPlate.setPreferredSize(new java.awt.Dimension(200, 28));
+
+        jLabel6.setText("Fee");
+
+        jDialogCarInputFee.setPreferredSize(new java.awt.Dimension(200, 28));
+
+        jDialogCarSubmit.setText("Submit");
+        jDialogCarSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDialogCarSubmitActionPerformed(evt);
+            }
+        });
+
+        jDialogCarCancel.setText("Cancel");
+        jDialogCarCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDialogCarCancelActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jDialogCarLayout = new org.jdesktop.layout.GroupLayout(jDialogCar.getContentPane());
+        jDialogCar.getContentPane().setLayout(jDialogCarLayout);
+        jDialogCarLayout.setHorizontalGroup(
+            jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jDialogCarLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jDialogCarLayout.createSequentialGroup()
+                        .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel6)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel5)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel4))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jDialogCarInputModel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jDialogCarInputPlate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jDialogCarInputFee, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jDialogCarLayout.createSequentialGroup()
+                        .add(0, 0, Short.MAX_VALUE)
+                        .add(jDialogCarCancel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jDialogCarSubmit)))
+                .addContainerGap())
+        );
+        jDialogCarLayout.setVerticalGroup(
+            jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jDialogCarLayout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel4)
+                    .add(jDialogCarInputModel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel5)
+                    .add(jDialogCarInputPlate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel6)
+                    .add(jDialogCarInputFee, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jDialogCarLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jDialogCarSubmit)
+                    .add(jDialogCarCancel)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,6 +279,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         jButtonCarsUpdate.setText("Update");
+        jButtonCarsUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCarsUpdateActionPerformed(evt);
+            }
+        });
 
         jButtonCarsDelete.setText("Delete");
 
@@ -304,8 +396,39 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCustomersAddActionPerformed
 
     private void jButtonCarsAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCarsAddActionPerformed
-	// TODO add your handling code here:
+	jDialogCar.setVisible(true);
+	jDialogCar.setSize(400, 200);
     }//GEN-LAST:event_jButtonCarsAddActionPerformed
+
+    private void jDialogCarInputModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDialogCarInputModelActionPerformed
+	// TODO add your handling code here:
+    }//GEN-LAST:event_jDialogCarInputModelActionPerformed
+
+    private void jDialogCarCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDialogCarCancelActionPerformed
+	jDialogCar.setVisible(false);
+    }//GEN-LAST:event_jDialogCarCancelActionPerformed
+
+    private void jDialogCarSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDialogCarSubmitActionPerformed
+	Car car = new Car();
+	car.setModel(jDialogCarInputModel.getText());
+	car.setPlate(jDialogCarInputPlate.getText());
+	car.setFee(BigDecimal.valueOf(Double.parseDouble(jDialogCarInputFee.getText())).setScale(2));
+	carManager.addCar(car);
+	carTableModel.addCar(car);
+	jDialogCarInputModel.setText("");
+	jDialogCarInputPlate.setText("");
+	jDialogCarInputFee.setText("");
+    }//GEN-LAST:event_jDialogCarSubmitActionPerformed
+
+    private void jButtonCarsUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCarsUpdateActionPerformed
+	
+	jDialogCar.setVisible(true);
+	
+	jDialogCarInputModel.setText(String.valueOf(carTableModel.getValueAt(jTableCars.getSelectedRow(), 1)));
+	jDialogCarInputPlate.setText(String.valueOf(carTableModel.getValueAt(jTableCars.getSelectedRow(), 2)));
+	jDialogCarInputFee.setText(String.valueOf(carTableModel.getValueAt(jTableCars.getSelectedRow(), 3)));
+	jDialogCar.setSize(400, 200);
+    }//GEN-LAST:event_jButtonCarsUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,9 +481,18 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRentsAdd;
     private javax.swing.JButton jButtonRentsDelete;
     private javax.swing.JButton jButtonRentsUpdate;
+    private javax.swing.JDialog jDialogCar;
+    private javax.swing.JButton jDialogCarCancel;
+    private javax.swing.JTextField jDialogCarInputFee;
+    private javax.swing.JTextField jDialogCarInputModel;
+    private javax.swing.JTextField jDialogCarInputPlate;
+    private javax.swing.JButton jDialogCarSubmit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelAppTitle;
     private javax.swing.JPanel jPanelCenter;
     private javax.swing.JPanel jPanelEast;

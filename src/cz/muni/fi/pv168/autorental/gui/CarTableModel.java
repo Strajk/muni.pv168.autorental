@@ -27,7 +27,7 @@ public class CarTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
 	switch (columnIndex) {
 	    case 0:
-		return Integer.class;
+		return Long.class;
 	    case 1:
 	    case 2:
 		return String.class;
@@ -41,14 +41,14 @@ public class CarTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Car car = cars.get(rowIndex);
-        switch (COLUMNS.values()[columnIndex]) {
-            case ID:
+        switch (columnIndex) {
+            case 0:
                 return car.getId();
-            case MODEL:
+            case 1:
                 return car.getModel();
-            case PLATE:
+            case 2:
                 return car.getPlate();
-            case FEE:
+            case 3:
                 return car.getFee();
             default:
                 throw new IllegalArgumentException("columnIndex");
