@@ -92,9 +92,9 @@ public class Customer {
         return hash;
     }
 
-    @Override
+     @Override
     public String toString() {
-	return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", birth=" + birth + ", email=" + email + '}';
+	return firstname + " " + lastname + " (" + birth + ") [" + email + ']';
     }
 
 }

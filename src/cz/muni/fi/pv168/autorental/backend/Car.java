@@ -77,7 +77,7 @@ public class Car {
 
     @Override
     public String toString() {
-	return "Car{" + "id=" + id + ", model=" + model + ", plate=" + plate + ", fee=" + fee + '}';
+	return model + " (" + plate + ") [" + id + ']';
     }
     
 }

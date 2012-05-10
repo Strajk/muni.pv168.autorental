@@ -35,7 +35,7 @@ public class Autorental {
 	
 	// app.addSomeCars();
 	// app.addSomeCustomers();
-	app.addSomeRents();
+	// app.addSomeRents();
     }
     
     private void addSomeCars() {

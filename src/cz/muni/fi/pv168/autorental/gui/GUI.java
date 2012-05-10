@@ -19,8 +19,8 @@ public class GUI extends javax.swing.JFrame {
 
     BasicDataSource basicDataSource = new BasicDataSource();
     
-    // RentManager rentManager;
-    // RentTableModel rentTableModel;
+    RentManager rentManager;
+    RentTableModel rentTableModel;
     CustomerManager customerManager;
     CustomerTableModel customerTableModel;
     CarManager carManager;
@@ -35,13 +35,18 @@ public class GUI extends javax.swing.JFrame {
 
 	@Override
 	protected Void doInBackground() throws Exception {
-	    customerTableModel = (CustomerTableModel) jTableCars.getModel();
+	    rentTableModel = (RentTableModel) jTableRents.getModel();
+	    rentManager = new RentManagerImpl(basicDataSource);
+	    customerTableModel = (CustomerTableModel) jTableCustomers.getModel();
 	    customerManager = new CustomerManagerImpl(basicDataSource);
 	    carTableModel = (CarTableModel) jTableCars.getModel();
 	    carManager = new CarManagerImpl(basicDataSource);
-//	    for (Customer customer : customerManager.findAllCustomers()) {
-//		publish(customer);
-//	    }
+	    for (Rent rent : rentManager.findAllRents()) {
+		publish(rent);
+	    }
+	    for (Customer customer : customerManager.findAllCustomers()) {
+		publish(customer);
+	    }
 	    for (Car car : carManager.findAllCars()) {
 		publish(car);
 	    }
@@ -53,14 +58,15 @@ public class GUI extends javax.swing.JFrame {
 	protected void process(List<Object> items) {
 	    System.out.println("Processuju auto");
 	    for (Object obj : items) {
-		if (obj instanceof Car) {
-		    System.out.println("Processuju auto");
-		    carTableModel.addCar((Car) obj);
+		if (obj instanceof Rent) {
+		    rentTableModel.addRent((Rent) obj);
 		} else if (obj instanceof Customer) {
-		    System.out.println("Processuju zakaznika");
 		    customerTableModel.addCustomer((Customer) obj);
+		} else if (obj instanceof Car) {
+		    carTableModel.addCar((Car) obj);
 		} else {
-		    System.out.println("Processuju NIC");
+		    String msg = "Undefined Object to process";
+		    throw new IllegalArgumentException(msg);
 		}
 	    }
 	}
@@ -251,17 +257,7 @@ public class GUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanelEast, java.awt.BorderLayout.LINE_END);
 
-        jTableRents.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTableRents.setModel(new RentTableModel());
         jScrollPaneRentsScroll.setViewportView(jTableRents);
 
         jTableCustomers.setModel(new CustomerTableModel());
