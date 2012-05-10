@@ -37,7 +37,7 @@ public class CarTableModel extends AbstractTableModel {
 		throw new IllegalArgumentException("columnIndex");
 	}
     }
- 
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Car car = cars.get(rowIndex);

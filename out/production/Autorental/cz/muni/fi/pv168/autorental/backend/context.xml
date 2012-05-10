@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/Autorental">
+<Resource name="jdbc/Autorental" auth="Container" type="javax.sql.DataSource"
+        driverClassName="org.apache.derby.jdbc.ClientDriver"
+        username="app" password="app"
+        url="jdbc:derby://localhost:1527/GraveManager"/>
+</Context>
