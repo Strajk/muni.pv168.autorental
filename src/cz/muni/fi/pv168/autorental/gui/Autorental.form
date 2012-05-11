@@ -15,7 +15,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="dialog_rents_calculate" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="206" max="32767" attributes="0"/>
+                          <EmptySpace pref="71" max="32767" attributes="0"/>
                           <Component id="dialog_rents_cancel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="dialog_rents_submit" min="-2" max="-2" attributes="0"/>
@@ -34,9 +34,9 @@
                               <Component id="dialog_rents_fromInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_rents_costInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_rents_idInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dialog_rents_customerInput" max="32767" attributes="0"/>
-                              <Component id="dialog_rents_carInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_rents_toInput" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dialog_rents_customerInput" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dialog_rents_carInput" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -54,13 +54,13 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="dialog_rents_customerInput" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="dialog_rents_customerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dialog_rents_customerInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="dialog_rents_carInput" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="dialog_rents_carLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dialog_rents_carInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -107,37 +107,17 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_customerLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Customer"/>
+            <Property name="text" type="java.lang.String" value="Customer ID"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="dialog_rents_customerInput">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="dialog_rents_customerInput">
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_carLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Car"/>
+            <Property name="text" type="java.lang.String" value="Car ID"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="dialog_rents_carInput">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="dialog_rents_carInput">
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_fromLabel">
           <Properties>
@@ -364,9 +344,6 @@
     </Container>
     <Container class="javax.swing.JDialog" name="dialog_cars">
       <Properties>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="null"/>
-        </Property>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
 
@@ -711,6 +688,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rents_updateActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="rents_delete">
               <Properties>
@@ -736,15 +716,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="customers_scroll" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="customers_scroll" pref="961" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="customers_title" alignment="0" pref="140" max="-2" attributes="0"/>
                           <Component id="customers_update" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                           <Component id="customers_delete" alignment="0" pref="140" max="-2" attributes="0"/>
                           <Component id="customers_add" alignment="0" pref="140" max="-2" attributes="0"/>
+                          <Component id="customers_use" pref="140" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -761,7 +742,9 @@
                               <Component id="customers_update" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="customers_delete" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="108" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="customers_use" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="61" max="32767" attributes="0"/>
                           </Group>
                           <Component id="customers_scroll" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -840,6 +823,14 @@
                 <Property name="text" type="java.lang.String" value="Customers"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JButton" name="customers_use">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Use"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_useActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="cars">
@@ -850,14 +841,15 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="cars_scroll" pref="961" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cars_title" alignment="0" pref="140" max="-2" attributes="0"/>
                           <Component id="cars_update" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                           <Component id="cars_delete" alignment="0" pref="140" max="-2" attributes="0"/>
                           <Component id="cars_add" alignment="0" pref="140" max="-2" attributes="0"/>
+                          <Component id="cars_use" alignment="1" pref="140" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -874,7 +866,9 @@
                               <Component id="cars_update" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cars_delete" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="129" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="cars_use" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
                           </Group>
                           <Component id="cars_scroll" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -954,6 +948,11 @@
                   </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cars"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="cars_use">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Use"/>
               </Properties>
             </Component>
           </SubComponents>
