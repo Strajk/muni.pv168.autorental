@@ -43,15 +43,15 @@ public class CustomerTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
 	switch (COLUMNS.values()[columnIndex]) {
 	    case ID:
-		return "id";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("customers_table_id");
 	    case FIRSTNAME:
-		return "firstname";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("customers_table_firstname");
 	    case LASTNAME:
-		return "lastname";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("customers_table_lastname");
 	    case BIRTH:
-		return "birth";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("customers_table_birth");
 	    case EMAIL:
-		return "email";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("customers_table_email");
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
@@ -81,11 +81,16 @@ public class CustomerTableModel extends AbstractTableModel {
 	int lastRow = customers.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
     }
-    
+        
     public void removeCustomer(Customer customer) {
 	customers.remove(customer);
 	int lastRow = customers.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
+    }
+    
+    public void clear() {
+	customers.clear();
+        fireTableDataChanged();
     }
     
      public List<Customer> getAllCustomers() {

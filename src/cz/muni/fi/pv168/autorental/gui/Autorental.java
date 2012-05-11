@@ -6,12 +6,18 @@ package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.*;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import javax.swing.*;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.table.TableColumn;
 
 /**
@@ -30,61 +36,175 @@ public class Autorental extends javax.swing.JFrame {
     CustomerTableModel customerTableModel;
     CarTableModel carTableModel;
     
-    private AppSwingWorker appSwingWorker;
-    private class AppSwingWorker extends SwingWorker<Void, Object> {
+    private RentsSwingWorker rentsSwingWorker;
+    private class RentsSwingWorker extends SwingWorker<Void, Rent> {
 
 	@Override
 	protected Void doInBackground() throws Exception {
-	    
-	    rentManager	    = new RentManagerImpl(basicDataSource);
-	    customerManager = new CustomerManagerImpl(basicDataSource);
-	    carManager	    = new CarManagerImpl(basicDataSource);
-	    
-	    rentTableModel     = (RentTableModel) rents_table.getModel();
-	    customerTableModel = (CustomerTableModel) customers_table.getModel();
-	    carTableModel      = (CarTableModel) cars_table.getModel();
-	    
+	    rentTableModel = (RentTableModel) rents_table.getModel();
+            int counter = 0;
 	    for (Rent rent : rentManager.findAllRents()) {
+                counter++;
+                Thread.sleep(30);
 		publish(rent);
+                setProgress(counter);
 	    }
-	    for (Customer customer : customerManager.findAllCustomers()) {
-		publish(customer);
-	    }
-	    for (Car car : carManager.findAllCars()) {
-		publish(car);
-	    }
-	    
 	    return null;
 	}
 	
 	@Override
-	protected void process(List<Object> items) {
-	    for (Object obj : items) {
-		if (obj instanceof Rent) {
-		    rentTableModel.addRent((Rent) obj);
-		} else if (obj instanceof Customer) {
-		    customerTableModel.addCustomer((Customer) obj);
-		} else if (obj instanceof Car) {
-		    carTableModel.addCar((Car) obj);
-		} else {
-		    String msg = "Undefined Object to process";
-		    throw new IllegalArgumentException(msg);
-		}
+	protected void process(List<Rent> items) {
+	    for (Rent i : items) {
+                rentTableModel.addRent(i);
 	    }
 	}
+
+        @Override
+        protected void done() {
+            rents_load.setEnabled(true);
+            rents_progress.setValue(100);
+            rentsSwingWorker = null;
+        }
     }
+    
+    private CustomersSwingWorker customersSwingWorker;
+    private class CustomersSwingWorker extends SwingWorker<Void, Customer> {
+
+	@Override
+	protected Void doInBackground() throws Exception {
+	    customerTableModel = (CustomerTableModel) customers_table.getModel();
+            int counter = 0;
+	    for (Customer customer : customerManager.findAllCustomers()) {
+                counter++;
+                Thread.sleep(50);
+		publish(customer);
+                setProgress(counter);
+	    }
+	    return null;
+	}
+	
+	@Override
+	protected void process(List<Customer> items) {
+	    for (Customer i : items) {
+                customerTableModel.addCustomer(i);
+	    }
+	}
+
+        @Override
+        protected void done() {
+            customers_load.setEnabled(true);
+            customers_progress.setValue(100);
+            customersSwingWorker = null;
+        }
+    }
+    
+    private CarsSwingWorker carsSwingWorker;
+    private class CarsSwingWorker extends SwingWorker<Void, Car> {
+
+	@Override
+	protected Void doInBackground() throws Exception {
+	    carTableModel = (CarTableModel) cars_table.getModel();
+            int counter = 0;
+	    for (Car car : carManager.findAllCars()) {
+                counter++;
+                Thread.sleep(80);
+		publish(car);
+                setProgress(counter);
+	    }
+	    return null;
+	}
+	
+	@Override
+	protected void process(List<Car> items) {
+	    for (Car i : items) {
+                carTableModel.addCar(i);
+	    }
+	}
+
+        @Override
+        protected void done() {
+            cars_load.setEnabled(true);
+            cars_progress.setValue(100);
+            carsSwingWorker = null;
+        }
+    }
+    
+    
+    
 
     public Autorental() {
-	Locale.setDefault(new Locale("cs"));
+//        Locale locale_cs = new Locale("cs");
+//        Locale locale_en = new Locale("en");
+//        Locale locale_sk = new Locale("sk");
+//        
+//        Locale.setDefault(new Locale("cs"));
+
+        
+//        NumberFormat locale_cs_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_cs);
+//        locale_cs_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
+//        NumberFormat locale_en_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_en);
+//        locale_en_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
+//        NumberFormat locale_sk_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_sk);
+//        locale_sk_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
+//        
+//        DateFormat locale_cs_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+//        DateFormat locale_en_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+//        DateFormat locale_sk_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+        
+//        ResourceBundle localization = ResourceBundle.getBundle("localization", Locale.getDefault());
+        
+        
 	initComponents();
 	
 	basicDataSource.setUrl("jdbc:derby://localhost:1527/autorental");
 	basicDataSource.setUsername("app");
 	basicDataSource.setPassword("app");
+        
+        rentManager	= new RentManagerImpl(basicDataSource);
+        customerManager = new CustomerManagerImpl(basicDataSource);
+        carManager	= new CarManagerImpl(basicDataSource);
 
-	appSwingWorker = new AppSwingWorker();
-	appSwingWorker.execute();
+        
+        rentsSwingWorker = new RentsSwingWorker();
+        rentsSwingWorker.addPropertyChangeListener(rentsProgressListener);
+        rentsSwingWorker.execute();
+        
+        customersSwingWorker = new CustomersSwingWorker();
+        customersSwingWorker.addPropertyChangeListener(customersProgressListener);
+        customersSwingWorker.execute();
+        
+        carsSwingWorker = new CarsSwingWorker();
+        carsSwingWorker.addPropertyChangeListener(carsProgressListener);
+        carsSwingWorker.execute();
     }
+    
+    
+    private PropertyChangeListener rentsProgressListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("progress")) {
+                rents_progress.setValue((Integer) evt.getNewValue());
+            }
+        }
+    };
+    
+    private PropertyChangeListener customersProgressListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("progress")) {
+                customers_progress.setValue((Integer) evt.getNewValue());
+            }
+        }
+    };
+    
+    private PropertyChangeListener carsProgressListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("progress")) {
+                cars_progress.setValue((Integer) evt.getNewValue());
+            }
+        }
+    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,8 +220,10 @@ public class Autorental extends javax.swing.JFrame {
         dialog_rents_idInput = new javax.swing.JTextField();
         dialog_rents_customerLabel = new javax.swing.JLabel();
         dialog_rents_customerInput = new javax.swing.JTextField();
+        dialog_rents_customerHelper = new javax.swing.JLabel();
         dialog_rents_carLabel = new javax.swing.JLabel();
         dialog_rents_carInput = new javax.swing.JTextField();
+        dialog_rents_carHelper = new javax.swing.JLabel();
         dialog_rents_fromLabel = new javax.swing.JLabel();
         dialog_rents_fromInput = new javax.swing.JTextField();
         dialog_rents_toLabel = new javax.swing.JLabel();
@@ -135,6 +257,7 @@ public class Autorental extends javax.swing.JFrame {
         dialog_cars_feeInput = new javax.swing.JTextField();
         dialog_cars_submit = new javax.swing.JButton();
         dialog_cars_cancel = new javax.swing.JButton();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         header = new javax.swing.JPanel();
         header_title = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
@@ -145,6 +268,8 @@ public class Autorental extends javax.swing.JFrame {
         rents_update = new javax.swing.JButton();
         rents_delete = new javax.swing.JButton();
         rents_title = new javax.swing.JLabel();
+        rents_load = new javax.swing.JButton();
+        rents_progress = new javax.swing.JProgressBar();
         customers = new javax.swing.JPanel();
         customers_scroll = new javax.swing.JScrollPane();
         customers_table = new javax.swing.JTable();
@@ -153,6 +278,8 @@ public class Autorental extends javax.swing.JFrame {
         customers_delete = new javax.swing.JButton();
         customers_title = new javax.swing.JLabel();
         customers_use = new javax.swing.JButton();
+        customers_load = new javax.swing.JButton();
+        customers_progress = new javax.swing.JProgressBar();
         cars = new javax.swing.JPanel();
         cars_scroll = new javax.swing.JScrollPane();
         cars_table = new javax.swing.JTable();
@@ -161,10 +288,13 @@ public class Autorental extends javax.swing.JFrame {
         cars_delete = new javax.swing.JButton();
         cars_title = new javax.swing.JLabel();
         cars_use = new javax.swing.JButton();
+        cars_load = new javax.swing.JButton();
+        cars_progress = new javax.swing.JProgressBar();
 
         dialog_rents.setResizable(false);
 
-        dialog_rents_idLabel.setText("ID");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle"); // NOI18N
+        dialog_rents_idLabel.setText(bundle.getString("Autorental.dialog_rents_idLabel.text")); // NOI18N
 
         dialog_rents_idInput.setEnabled(false);
         dialog_rents_idInput.setPreferredSize(new java.awt.Dimension(200, 28));
@@ -174,37 +304,45 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_rents_customerLabel.setText("Customer ID");
+        dialog_rents_customerLabel.setText(bundle.getString("Autorental.dialog_rents_customerLabel.text")); // NOI18N
 
-        dialog_rents_carLabel.setText("Car ID");
+        dialog_rents_customerInput.setEnabled(false);
 
-        dialog_rents_fromLabel.setText("From");
+        dialog_rents_customerHelper.setText(bundle.getString("Autorental.dialog_rents_customerHelper.text")); // NOI18N
+
+        dialog_rents_carLabel.setText(bundle.getString("Autorental.dialog_rents_carLabel.text")); // NOI18N
+
+        dialog_rents_carInput.setEnabled(false);
+
+        dialog_rents_carHelper.setText(bundle.getString("Autorental.dialog_rents_carHelper.text")); // NOI18N
+
+        dialog_rents_fromLabel.setText(bundle.getString("Autorental.dialog_rents_fromLabel.text")); // NOI18N
 
         dialog_rents_fromInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_rents_toLabel.setText("To");
+        dialog_rents_toLabel.setText(bundle.getString("Autorental.dialog_rents_toLabel.text")); // NOI18N
 
         dialog_rents_toInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_rents_costLabel.setText("Cost");
+        dialog_rents_costLabel.setText(bundle.getString("Autorental.dialog_rents_costLabel.text")); // NOI18N
 
         dialog_rents_costInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_rents_calculate.setText("Calculate");
+        dialog_rents_calculate.setText(bundle.getString("Autorental.dialog_rents_calculate.text")); // NOI18N
         dialog_rents_calculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_rents_calculateActionPerformed(evt);
             }
         });
 
-        dialog_rents_cancel.setText("Cancel");
+        dialog_rents_cancel.setText(bundle.getString("Autorental.dialog_rents_cancel.text")); // NOI18N
         dialog_rents_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_rents_cancelActionPerformed(evt);
             }
         });
 
-        dialog_rents_submit.setText("Submit");
+        dialog_rents_submit.setText(bundle.getString("Autorental.dialog_rents_submit.text")); // NOI18N
         dialog_rents_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_rents_submitActionPerformed(evt);
@@ -220,7 +358,7 @@ public class Autorental extends javax.swing.JFrame {
                 .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, dialog_rentsLayout.createSequentialGroup()
                         .add(dialog_rents_calculate)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 71, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(dialog_rents_cancel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(dialog_rents_submit))
@@ -234,12 +372,18 @@ public class Autorental extends javax.swing.JFrame {
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, dialog_rents_idLabel))
                         .add(12, 12, 12)
                         .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(dialog_rents_fromInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(dialog_rents_fromInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                             .add(dialog_rents_costInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(dialog_rents_idInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(dialog_rents_toInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(dialog_rents_customerInput)
-                            .add(dialog_rents_carInput))))
+                            .add(dialog_rentsLayout.createSequentialGroup()
+                                .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, dialog_rents_idInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, dialog_rents_carInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, dialog_rents_customerInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(dialog_rents_customerHelper, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .add(dialog_rents_carHelper, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         dialog_rentsLayout.setVerticalGroup(
@@ -252,11 +396,13 @@ public class Autorental extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(dialog_rents_customerLabel)
-                    .add(dialog_rents_customerInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(dialog_rents_customerInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(dialog_rents_customerHelper))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(dialog_rents_carLabel)
-                    .add(dialog_rents_carInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(dialog_rents_carInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(dialog_rents_carHelper))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(dialog_rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(dialog_rents_fromInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -279,7 +425,7 @@ public class Autorental extends javax.swing.JFrame {
 
         dialog_customers.setResizable(false);
 
-        dialog_customers_idLabel.setText("ID");
+        dialog_customers_idLabel.setText(bundle.getString("Autorental.dialog_customers_idLabel.text")); // NOI18N
 
         dialog_customers_idInput.setEnabled(false);
         dialog_customers_idInput.setPreferredSize(new java.awt.Dimension(200, 28));
@@ -289,7 +435,7 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_customers_firstnameLabel.setText("Firstname");
+        dialog_customers_firstnameLabel.setText(bundle.getString("Autorental.dialog_customers_firstnameLabel.text")); // NOI18N
 
         dialog_customers_firstnameInput.setPreferredSize(new java.awt.Dimension(200, 28));
         dialog_customers_firstnameInput.addActionListener(new java.awt.event.ActionListener() {
@@ -298,15 +444,15 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_customers_lastnameLabel.setText("Lastname");
+        dialog_customers_lastnameLabel.setText(bundle.getString("Autorental.dialog_customers_lastnameLabel.text")); // NOI18N
 
         dialog_customers_lastnameInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_customers_birthLabel.setText("Birth");
+        dialog_customers_birthLabel.setText(bundle.getString("Autorental.dialog_customers_birthLabel.text")); // NOI18N
 
         dialog_customers_birthInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_customers_emailLabel.setText("E-mail");
+        dialog_customers_emailLabel.setText(bundle.getString("Autorental.dialog_customers_emailLabel.text")); // NOI18N
 
         dialog_customers_emailInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -314,14 +460,14 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_customers_cancel.setText("Cancel");
+        dialog_customers_cancel.setText(bundle.getString("Autorental.dialog_customers_cancel.text")); // NOI18N
         dialog_customers_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_customers_cancelActionPerformed(evt);
             }
         });
 
-        dialog_customers_submit.setText("Submit");
+        dialog_customers_submit.setText(bundle.getString("Autorental.dialog_customers_submit.text")); // NOI18N
         dialog_customers_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_customers_submitActionPerformed(evt);
@@ -347,8 +493,10 @@ public class Autorental extends javax.swing.JFrame {
                             .add(dialog_customers_lastnameInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                             .add(dialog_customers_birthInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(dialog_customers_firstnameInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(dialog_customers_idInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(dialog_customers_emailInput)))
+                            .add(dialog_customers_emailInput)
+                            .add(dialog_customersLayout.createSequentialGroup()
+                                .add(dialog_customers_idInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(0, 0, Short.MAX_VALUE))))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, dialog_customersLayout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
                         .add(dialog_customers_cancel)
@@ -388,7 +536,7 @@ public class Autorental extends javax.swing.JFrame {
 
         dialog_cars.setResizable(false);
 
-        dialog_cars_idLabel.setText("ID");
+        dialog_cars_idLabel.setText(bundle.getString("Autorental.dialog_cars_idLabel.text")); // NOI18N
 
         dialog_cars_idInput.setEnabled(false);
         dialog_cars_idInput.setPreferredSize(new java.awt.Dimension(200, 28));
@@ -398,7 +546,7 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_cars_modelLabel.setText("Model");
+        dialog_cars_modelLabel.setText(bundle.getString("Autorental.dialog_cars_modelLabel.text")); // NOI18N
 
         dialog_cars_modelInput.setPreferredSize(new java.awt.Dimension(200, 28));
         dialog_cars_modelInput.addActionListener(new java.awt.event.ActionListener() {
@@ -407,22 +555,22 @@ public class Autorental extends javax.swing.JFrame {
             }
         });
 
-        dialog_cars_plateLabel.setText("Plate");
+        dialog_cars_plateLabel.setText(bundle.getString("Autorental.dialog_cars_plateLabel.text")); // NOI18N
 
         dialog_cars_plateInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_cars_feeLabel.setText("Fee");
+        dialog_cars_feeLabel.setText(bundle.getString("Autorental.dialog_cars_feeLabel.text")); // NOI18N
 
         dialog_cars_feeInput.setPreferredSize(new java.awt.Dimension(200, 28));
 
-        dialog_cars_submit.setText("Submit");
+        dialog_cars_submit.setText(bundle.getString("Autorental.dialog_cars_submit.text")); // NOI18N
         dialog_cars_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_cars_submitActionPerformed(evt);
             }
         });
 
-        dialog_cars_cancel.setText("Cancel");
+        dialog_cars_cancel.setText(bundle.getString("Autorental.dialog_cars_cancel.text")); // NOI18N
         dialog_cars_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dialog_cars_cancelActionPerformed(evt);
@@ -449,10 +597,12 @@ public class Autorental extends javax.swing.JFrame {
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, dialog_cars_feeLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(dialog_carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(dialog_cars_idInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                            .add(dialog_cars_modelInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(dialog_cars_modelInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
                             .add(dialog_cars_plateInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(dialog_cars_feeInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .add(dialog_cars_feeInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(dialog_carsLayout.createSequentialGroup()
+                                .add(dialog_cars_idInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         dialog_carsLayout.setVerticalGroup(
@@ -481,6 +631,19 @@ public class Autorental extends javax.swing.JFrame {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jInternalFrame1.setVisible(true);
+
+        org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 829));
 
@@ -488,15 +651,15 @@ public class Autorental extends javax.swing.JFrame {
 
         header_title.setFont(header_title.getFont().deriveFont(header_title.getFont().getStyle() | java.awt.Font.BOLD, header_title.getFont().getSize()+12));
         header_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        header_title.setText("jAutorentalApp");
+        header_title.setText(bundle.getString("Autorental.header_title.text")); // NOI18N
 
         org.jdesktop.layout.GroupLayout headerLayout = new org.jdesktop.layout.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, headerLayout.createSequentialGroup()
+            .add(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(header_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1119, Short.MAX_VALUE)
+                .add(header_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         headerLayout.setVerticalGroup(
@@ -523,24 +686,31 @@ public class Autorental extends javax.swing.JFrame {
         rents_col_cost.setMaxWidth(100);
         rents_scroll.setViewportView(rents_table);
 
-        rents_add.setText("Add");
+        rents_add.setText(bundle.getString("Autorental.rents_add.text")); // NOI18N
         rents_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rents_addActionPerformed(evt);
             }
         });
 
-        rents_update.setText("Update");
+        rents_update.setText(bundle.getString("Autorental.rents_update.text")); // NOI18N
         rents_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rents_updateActionPerformed(evt);
             }
         });
 
-        rents_delete.setText("Delete");
+        rents_delete.setText(bundle.getString("Autorental.rents_delete.text")); // NOI18N
 
         rents_title.setFont(rents_title.getFont().deriveFont(rents_title.getFont().getStyle() | java.awt.Font.BOLD, rents_title.getFont().getSize()+6));
-        rents_title.setText("Rents");
+        rents_title.setText(bundle.getString("Autorental.rents_title.text")); // NOI18N
+
+        rents_load.setText(bundle.getString("Autorental.rents_load.text")); // NOI18N
+        rents_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rents_loadActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout rentsLayout = new org.jdesktop.layout.GroupLayout(rents);
         rents.setLayout(rentsLayout);
@@ -548,13 +718,15 @@ public class Autorental extends javax.swing.JFrame {
             rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, rentsLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(rents_scroll)
+                .add(rents_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(rents_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(rents_update, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(rents_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(rents_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(rents_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(rents_update, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(rents_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(rents_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(rents_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(rents_load, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         rentsLayout.setVerticalGroup(
@@ -570,7 +742,10 @@ public class Autorental extends javax.swing.JFrame {
                         .add(rents_update)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(rents_delete)
-                        .add(0, 108, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 53, Short.MAX_VALUE)
+                        .add(rents_load)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(rents_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(rents_scroll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -586,24 +761,31 @@ public class Autorental extends javax.swing.JFrame {
         TableColumn customers_col_email = customers_table.getColumnModel().getColumn(4);
         customers_scroll.setViewportView(customers_table);
 
-        customers_add.setText("Add");
+        customers_add.setText(bundle.getString("Autorental.customers_add.text")); // NOI18N
         customers_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 customers_addActionPerformed(evt);
             }
         });
 
-        customers_update.setText("Update");
+        customers_update.setText(bundle.getString("Autorental.customers_update.text")); // NOI18N
 
-        customers_delete.setText("Delete");
+        customers_delete.setText(bundle.getString("Autorental.customers_delete.text")); // NOI18N
 
         customers_title.setFont(customers_title.getFont().deriveFont(customers_title.getFont().getStyle() | java.awt.Font.BOLD, customers_title.getFont().getSize()+6));
-        customers_title.setText("Customers");
+        customers_title.setText(bundle.getString("Autorental.customers_title.text")); // NOI18N
 
-        customers_use.setText("Use");
+        customers_use.setText(bundle.getString("Autorental.customers_use.text")); // NOI18N
         customers_use.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 customers_useActionPerformed(evt);
+            }
+        });
+
+        customers_load.setText(bundle.getString("Autorental.customers_load.text")); // NOI18N
+        customers_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customers_loadActionPerformed(evt);
             }
         });
 
@@ -613,14 +795,16 @@ public class Autorental extends javax.swing.JFrame {
             customersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, customersLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(customers_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+                .add(customers_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(customersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(customers_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(customers_update, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(customers_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(customers_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(customers_use, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(customersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(customers_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(customers_update, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(customers_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(customers_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(customers_use, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(customers_load, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(customers_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         customersLayout.setVerticalGroup(
@@ -636,9 +820,12 @@ public class Autorental extends javax.swing.JFrame {
                         .add(customers_update)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(customers_delete)
-                        .add(18, 18, 18)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(customers_use)
-                        .add(0, 61, Short.MAX_VALUE))
+                        .add(18, 18, Short.MAX_VALUE)
+                        .add(customers_load)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(customers_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(customers_scroll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -654,26 +841,38 @@ public class Autorental extends javax.swing.JFrame {
         cars_col_fee.setMaxWidth(100);
         cars_scroll.setViewportView(cars_table);
 
-        cars_add.setText("Add");
+        cars_add.setText(bundle.getString("Autorental.cars_add.text")); // NOI18N
         cars_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cars_addActionPerformed(evt);
             }
         });
 
-        cars_update.setText("Update");
+        cars_update.setText(bundle.getString("Autorental.cars_update.text")); // NOI18N
         cars_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cars_updateActionPerformed(evt);
             }
         });
 
-        cars_delete.setText("Delete");
+        cars_delete.setText(bundle.getString("Autorental.cars_delete.text")); // NOI18N
 
         cars_title.setFont(cars_title.getFont().deriveFont(cars_title.getFont().getStyle() | java.awt.Font.BOLD, cars_title.getFont().getSize()+6));
-        cars_title.setText("Cars");
+        cars_title.setText(bundle.getString("Autorental.cars_title.text")); // NOI18N
 
-        cars_use.setText("Use");
+        cars_use.setText(bundle.getString("Autorental.cars_use.text")); // NOI18N
+        cars_use.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cars_useActionPerformed(evt);
+            }
+        });
+
+        cars_load.setText(bundle.getString("Autorental.cars_load.text")); // NOI18N
+        cars_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cars_loadActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout carsLayout = new org.jdesktop.layout.GroupLayout(cars);
         cars.setLayout(carsLayout);
@@ -681,14 +880,16 @@ public class Autorental extends javax.swing.JFrame {
             carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, carsLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(cars_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+                .add(cars_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(cars_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(cars_update, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(cars_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(cars_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, cars_use, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(cars_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(cars_update, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(cars_delete, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(cars_add, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(cars_use, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .add(cars_load, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(cars_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         carsLayout.setVerticalGroup(
@@ -704,9 +905,12 @@ public class Autorental extends javax.swing.JFrame {
                         .add(cars_update)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cars_delete)
-                        .add(18, 18, 18)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cars_use)
-                        .add(0, 82, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 39, Short.MAX_VALUE)
+                        .add(cars_load)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(cars_progress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(cars_scroll, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -761,18 +965,21 @@ public class Autorental extends javax.swing.JFrame {
     }//GEN-LAST:event_dialog_cars_submitActionPerformed
 
     private void rents_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rents_addActionPerformed
-	dialog_rents.setVisible(true);
-        dialog_rents.setSize(new Dimension(400, 300)); // TODO better
+        dialog_rents.pack();
+        dialog_rents.setLocationRelativeTo(null);
+        dialog_rents.setVisible(true);
     }//GEN-LAST:event_rents_addActionPerformed
 
     private void customers_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_addActionPerformed
+        dialog_customers.pack();
+        dialog_customers.setLocationRelativeTo(null);
         dialog_customers.setVisible(true);
-        dialog_customers.setSize(new Dimension(400, 300)); // TODO better
     }//GEN-LAST:event_customers_addActionPerformed
 
     private void cars_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_addActionPerformed
+        dialog_cars.pack();
+        dialog_cars.setLocationRelativeTo(null);
         dialog_cars.setVisible(true);
-        dialog_cars.setSize(new Dimension(400, 300)); // TODO better
     }//GEN-LAST:event_cars_addActionPerformed
 
     private void cars_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_updateActionPerformed
@@ -820,19 +1027,74 @@ public class Autorental extends javax.swing.JFrame {
     }//GEN-LAST:event_dialog_customers_emailInputActionPerformed
 
     private void rents_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rents_updateActionPerformed
-        dialog_rents.setVisible(true);
-        dialog_rents.setSize(new Dimension(400, 300)); // TODO better
-        dialog_rents_idInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 0)));
-        dialog_rents_customerInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 1)));
-        dialog_rents_carInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 2)));
+        Long rent_id = (Long) rentTableModel.getValueAt(rents_table.getSelectedRow(), 0);
+        Rent rent = rentManager.findRentById(rent_id);
+        dialog_rents_idInput.setText(String.valueOf(rent.getId()));
+        
+        dialog_rents_customerInput.setText(String.valueOf(rent.getCustomer().getId()));
+        dialog_rents_customerHelper.setText(String.valueOf(rent.getCustomer().toString()));
+        
+        dialog_rents_carInput.setText(String.valueOf(rent.getCar().getId()));
+        dialog_rents_carHelper.setText(String.valueOf(rent.getCar().toString()));
+        
         dialog_rents_fromInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 3)));
         dialog_rents_toInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 4)));
         dialog_rents_costInput.setText(String.valueOf(rentTableModel.getValueAt(rents_table.getSelectedRow(), 5)));
+        
+        dialog_rents.pack();
+        dialog_rents.setLocationRelativeTo(null);
+        dialog_rents.setVisible(true);
     }//GEN-LAST:event_rents_updateActionPerformed
 
     private void customers_useActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_useActionPerformed
-        dialog_rents_customerInput.setText(String.valueOf(customerTableModel.getValueAt(customers_table.getSelectedRow(), 0)));
+        Long id = (Long) customerTableModel.getValueAt(customers_table.getSelectedRow(), 0);
+        Customer c = customerManager.findCustomerById(id); // TODO: Use TableModel instead of manager
+        dialog_rents_customerInput.setText(String.valueOf(id));
+        dialog_rents_customerHelper.setText(String.valueOf(c.toString()));
     }//GEN-LAST:event_customers_useActionPerformed
+
+    private void cars_useActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_useActionPerformed
+        Long id = (Long) carTableModel.getValueAt(cars_table.getSelectedRow(), 0);
+        Car c = carManager.findCarById(id); // TODO: Use TableModel instead of manager
+        dialog_rents_carInput.setText(String.valueOf(c.getId()));
+        dialog_rents_carHelper.setText(String.valueOf(c.toString()));
+    }//GEN-LAST:event_cars_useActionPerformed
+
+    private void rents_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rents_loadActionPerformed
+        if (rentsSwingWorker != null) {
+            throw new IllegalStateException("Operation is already in progress");
+        }
+        rents_load.setEnabled(false);
+        rents_progress.setValue(0);
+        rentTableModel.clear();
+        rentsSwingWorker = new RentsSwingWorker();
+        rentsSwingWorker.addPropertyChangeListener(rentsProgressListener);
+        rentsSwingWorker.execute();
+    }//GEN-LAST:event_rents_loadActionPerformed
+
+    private void customers_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_loadActionPerformed
+        if (customersSwingWorker != null) {
+            throw new IllegalStateException("Operation is already in progress");
+        }
+        customers_load.setEnabled(false);
+        customers_progress.setValue(0);
+        customerTableModel.clear();
+        customersSwingWorker = new CustomersSwingWorker();
+        customersSwingWorker.addPropertyChangeListener(customersProgressListener);
+        customersSwingWorker.execute();
+    }//GEN-LAST:event_customers_loadActionPerformed
+
+    private void cars_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_loadActionPerformed
+        if (carsSwingWorker != null) {
+            throw new IllegalStateException("Operation is already in progress");
+        }
+        cars_load.setEnabled(false);
+        cars_progress.setValue(0);
+        carTableModel.clear();
+        carsSwingWorker = new CarsSwingWorker();
+        carsSwingWorker.addPropertyChangeListener(carsProgressListener);
+        carsSwingWorker.execute();
+    }//GEN-LAST:event_cars_loadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -879,6 +1141,8 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JPanel cars;
     private javax.swing.JButton cars_add;
     private javax.swing.JButton cars_delete;
+    private javax.swing.JButton cars_load;
+    private javax.swing.JProgressBar cars_progress;
     private javax.swing.JScrollPane cars_scroll;
     private javax.swing.JTable cars_table;
     private javax.swing.JLabel cars_title;
@@ -888,6 +1152,8 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JPanel customers;
     private javax.swing.JButton customers_add;
     private javax.swing.JButton customers_delete;
+    private javax.swing.JButton customers_load;
+    private javax.swing.JProgressBar customers_progress;
     private javax.swing.JScrollPane customers_scroll;
     private javax.swing.JTable customers_table;
     private javax.swing.JLabel customers_title;
@@ -920,10 +1186,12 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JDialog dialog_rents;
     private javax.swing.JButton dialog_rents_calculate;
     private javax.swing.JButton dialog_rents_cancel;
+    private javax.swing.JLabel dialog_rents_carHelper;
     private javax.swing.JTextField dialog_rents_carInput;
     private javax.swing.JLabel dialog_rents_carLabel;
     private javax.swing.JTextField dialog_rents_costInput;
     private javax.swing.JLabel dialog_rents_costLabel;
+    private javax.swing.JLabel dialog_rents_customerHelper;
     private javax.swing.JTextField dialog_rents_customerInput;
     private javax.swing.JLabel dialog_rents_customerLabel;
     private javax.swing.JTextField dialog_rents_fromInput;
@@ -935,9 +1203,12 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JLabel dialog_rents_toLabel;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPanel rents;
     private javax.swing.JButton rents_add;
     private javax.swing.JButton rents_delete;
+    private javax.swing.JButton rents_load;
+    private javax.swing.JProgressBar rents_progress;
     private javax.swing.JScrollPane rents_scroll;
     private javax.swing.JTable rents_table;
     private javax.swing.JLabel rents_title;

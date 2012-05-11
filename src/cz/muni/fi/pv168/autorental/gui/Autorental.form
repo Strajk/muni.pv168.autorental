@@ -15,7 +15,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="dialog_rents_calculate" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="71" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="dialog_rents_cancel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="dialog_rents_submit" min="-2" max="-2" attributes="0"/>
@@ -31,12 +31,21 @@
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="dialog_rents_fromInput" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dialog_rents_fromInput" alignment="0" pref="328" max="32767" attributes="0"/>
                               <Component id="dialog_rents_costInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dialog_rents_idInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_rents_toInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dialog_rents_customerInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dialog_rents_carInput" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="dialog_rents_idInput" alignment="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="dialog_rents_carInput" alignment="0" pref="40" max="32767" attributes="0"/>
+                                      <Component id="dialog_rents_customerInput" alignment="0" pref="40" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="dialog_rents_customerHelper" max="32767" attributes="0"/>
+                                      <Component id="dialog_rents_carHelper" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -56,11 +65,13 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="dialog_rents_customerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="dialog_rents_customerInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dialog_rents_customerHelper" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="dialog_rents_carLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="dialog_rents_carInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dialog_rents_carHelper" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -91,7 +102,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="dialog_rents_idLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_idLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_idInput">
@@ -107,21 +120,47 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_customerLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Customer ID"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_customerLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_customerInput">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="dialog_rents_customerHelper">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_customerHelper.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_carLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Car ID"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_carLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_carInput">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="dialog_rents_carHelper">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_carHelper.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_fromLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="From"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_fromLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_fromInput">
@@ -133,7 +172,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_toLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="To"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_toLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_toInput">
@@ -145,7 +186,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_rents_costLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cost"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_costLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_rents_costInput">
@@ -157,7 +200,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_rents_calculate">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Calculate"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_calculate.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_rents_calculateActionPerformed"/>
@@ -165,7 +210,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_rents_cancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_cancel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_rents_cancelActionPerformed"/>
@@ -173,7 +220,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_rents_submit">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Submit"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_rents_submit.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_rents_submitActionPerformed"/>
@@ -205,8 +254,11 @@
                               <Component id="dialog_customers_lastnameInput" alignment="0" pref="354" max="32767" attributes="0"/>
                               <Component id="dialog_customers_birthInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_customers_firstnameInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dialog_customers_idInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_customers_emailInput" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="dialog_customers_idInput" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
@@ -261,7 +313,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="dialog_customers_idLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_idLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_customers_idInput">
@@ -277,7 +331,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_customers_firstnameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Firstname"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_firstnameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_customers_firstnameInput">
@@ -292,7 +348,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_customers_lastnameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Lastname"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_lastnameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_customers_lastnameInput">
@@ -304,7 +362,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_customers_birthLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Birth"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_birthLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_customers_birthInput">
@@ -316,7 +376,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_customers_emailLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="E-mail"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_emailLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_customers_emailInput">
@@ -326,7 +388,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_customers_cancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_cancel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_customers_cancelActionPerformed"/>
@@ -334,7 +398,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_customers_submit">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Submit"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_customers_submit.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_customers_submitActionPerformed"/>
@@ -368,10 +434,13 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="dialog_cars_idInput" alignment="0" pref="327" max="32767" attributes="0"/>
-                              <Component id="dialog_cars_modelInput" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dialog_cars_modelInput" alignment="0" pref="327" max="32767" attributes="0"/>
                               <Component id="dialog_cars_plateInput" alignment="0" max="32767" attributes="0"/>
                               <Component id="dialog_cars_feeInput" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="dialog_cars_idInput" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -415,7 +484,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="dialog_cars_idLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_idLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_cars_idInput">
@@ -431,7 +502,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_cars_modelLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Model"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_modelLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_cars_modelInput">
@@ -446,7 +519,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_cars_plateLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Plate"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_plateLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_cars_plateInput">
@@ -458,7 +533,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_cars_feeLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Fee"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_feeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dialog_cars_feeInput">
@@ -470,7 +547,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_cars_submit">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Submit"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_submit.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_cars_submitActionPerformed"/>
@@ -478,13 +557,33 @@
         </Component>
         <Component class="javax.swing.JButton" name="dialog_cars_cancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.dialog_cars_cancel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_cars_cancelActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
+    </Container>
+    <Container class="javax.swing.JInternalFrame" name="jInternalFrame1">
+      <Properties>
+        <Property name="visible" type="boolean" value="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
     </Container>
   </NonVisualComponents>
   <Properties>
@@ -497,16 +596,16 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <AuxValues>
-    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,61,0,0,4,107"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,61,0,0,4,124"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -526,9 +625,9 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="header_title" pref="1119" max="32767" attributes="0"/>
+                  <Component id="header_title" pref="1136" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -552,7 +651,9 @@
               </FontInfo>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="jAutorentalApp"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.header_title.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
@@ -600,15 +701,17 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="rents_scroll" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="rents_scroll" pref="978" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="rents_title" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="rents_update" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="rents_delete" pref="140" max="-2" attributes="0"/>
-                          <Component id="rents_add" alignment="0" pref="140" max="-2" attributes="0"/>
+                          <Component id="rents_title" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="rents_update" pref="140" max="32767" attributes="0"/>
+                          <Component id="rents_delete" pref="140" max="32767" attributes="0"/>
+                          <Component id="rents_add" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="rents_progress" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="rents_load" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -625,7 +728,10 @@
                               <Component id="rents_update" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="rents_delete" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="108" max="32767" attributes="0"/>
+                              <EmptySpace pref="53" max="32767" attributes="0"/>
+                              <Component id="rents_load" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="rents_progress" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="rents_scroll" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -678,7 +784,9 @@
             </Container>
             <Component class="javax.swing.JButton" name="rents_add">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_add.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rents_addActionPerformed"/>
@@ -686,7 +794,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="rents_update">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_update.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rents_updateActionPerformed"/>
@@ -694,7 +804,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="rents_delete">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="rents_title">
@@ -704,8 +816,22 @@
                     <Font bold="true" component="rents_title" property="font" relativeSize="true" size="6"/>
                   </FontInfo>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Rents"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_title.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="rents_load">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_load.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rents_loadActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JProgressBar" name="rents_progress">
             </Component>
           </SubComponents>
         </Container>
@@ -716,14 +842,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="customers_scroll" pref="961" max="32767" attributes="0"/>
+                      <Component id="customers_scroll" pref="978" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="customers_title" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="customers_update" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="customers_delete" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="customers_add" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="customers_use" pref="140" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="customers_title" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="customers_update" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="customers_delete" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="customers_add" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="customers_use" pref="140" max="32767" attributes="0"/>
+                          <Component id="customers_load" alignment="0" max="32767" attributes="0"/>
+                          <Component id="customers_progress" alignment="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -742,9 +870,12 @@
                               <Component id="customers_update" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="customers_delete" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Component id="customers_use" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="61" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="32767" attributes="0"/>
+                              <Component id="customers_load" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="customers_progress" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="customers_scroll" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -797,7 +928,9 @@
             </Container>
             <Component class="javax.swing.JButton" name="customers_add">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_add.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_addActionPerformed"/>
@@ -805,12 +938,16 @@
             </Component>
             <Component class="javax.swing.JButton" name="customers_update">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_update.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="customers_delete">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="customers_title">
@@ -820,16 +957,32 @@
                     <Font bold="true" component="customers_title" property="font" relativeSize="true" size="6"/>
                   </FontInfo>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Customers"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_title.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="customers_use">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Use"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_use.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_useActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="customers_load">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_load.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_loadActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JProgressBar" name="customers_progress">
             </Component>
           </SubComponents>
         </Container>
@@ -840,14 +993,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="cars_scroll" pref="961" max="32767" attributes="0"/>
+                      <Component id="cars_scroll" pref="978" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cars_title" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="cars_update" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="cars_delete" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="cars_add" alignment="0" pref="140" max="-2" attributes="0"/>
-                          <Component id="cars_use" alignment="1" pref="140" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cars_title" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="cars_update" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="cars_delete" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="cars_add" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="cars_use" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="cars_load" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cars_progress" alignment="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -866,9 +1021,12 @@
                               <Component id="cars_update" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cars_delete" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="cars_use" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
+                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                              <Component id="cars_load" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cars_progress" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="cars_scroll" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -921,7 +1079,9 @@
             </Container>
             <Component class="javax.swing.JButton" name="cars_add">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_add.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cars_addActionPerformed"/>
@@ -929,7 +1089,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="cars_update">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_update.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cars_updateActionPerformed"/>
@@ -937,7 +1099,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="cars_delete">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="cars_title">
@@ -947,13 +1111,32 @@
                     <Font bold="true" component="cars_title" property="font" relativeSize="true" size="6"/>
                   </FontInfo>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cars"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_title.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="cars_use">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Use"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_use.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cars_useActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="cars_load">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_load.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cars_loadActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JProgressBar" name="cars_progress">
             </Component>
           </SubComponents>
         </Container>

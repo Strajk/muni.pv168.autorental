@@ -46,17 +46,17 @@ public class RentTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
 	switch (COLUMNS.values()[columnIndex]) {
 	    case ID:
-		return "id";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_id");
 	    case CUSTOMER:
-		return "Customer";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_customer");
 	    case CAR:
-		return "Car";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_car");
 	    case FROM:
-		return "From";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_from");
 	    case TO:
-		return "To";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_to");
 	    case COST:
-		return "Cost";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("rents_table_cost");
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
@@ -93,6 +93,11 @@ public class RentTableModel extends AbstractTableModel {
 	rents.remove(rent);
 	int lastRow = rents.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
+    }
+    
+    public void clear() {
+	rents.clear();
+        fireTableDataChanged();
     }
     
      public List<Rent> getAllRents() {

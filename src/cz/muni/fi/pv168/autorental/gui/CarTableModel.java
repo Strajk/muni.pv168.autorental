@@ -67,6 +67,11 @@ public class CarTableModel extends AbstractTableModel {
 	fireTableRowsInserted(lastRow, lastRow);
     }
     
+    public void clear() {
+	cars.clear();
+        fireTableDataChanged();
+    }
+    
      public List<Car> getAllCars() {
 	return cars;
     }
@@ -76,13 +81,13 @@ public class CarTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
 	switch (COLUMNS.values()[columnIndex]) {
 	    case ID:
-		return "id";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_id");
 	    case MODEL:
-		return "model";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_model");
 	    case PLATE:
-		return "plate";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_plate");
 	    case FEE:
-		return "fee";
+		return java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_fee");
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
@@ -118,7 +123,6 @@ public class CarTableModel extends AbstractTableModel {
 		return true;
 	    case 0:
 	    case 3:
-	    case 4:
 		return false;
 	    default:
 		throw new IllegalArgumentException("columnIndex");
