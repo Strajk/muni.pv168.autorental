@@ -1,16 +1,25 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.Car;
+import cz.muni.fi.pv168.autorental.backend.CarManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 public class CarTableModel extends AbstractTableModel {
- 
+    
+    private static final Logger LOGGER = Logger.getLogger(CarTableModel.class.getName());
+    private CarManager carManager;
     private List<Car> cars = new ArrayList<Car>();
     private static enum COLUMNS {
         ID, MODEL, PLATE, FEE
+    }
+    
+    public void setCarManager(CarManager carManager) {
+        this.carManager = carManager;
     }
  
     @Override
@@ -57,14 +66,12 @@ public class CarTableModel extends AbstractTableModel {
     
     public void addCar(Car car) {
 	cars.add(car);
-	int lastRow = cars.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
     
     public void removeCar(Car car) {
 	cars.remove(car);
-	int lastRow = cars.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
     
     public void clear() {
@@ -97,9 +104,6 @@ public class CarTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 	Car car = cars.get(rowIndex);
 	switch (COLUMNS.values()[columnIndex]) {
-	    case ID:
-		car.setId((Long) aValue);
-		break;
 	    case MODEL:
 		car.setModel((String) aValue);
 		break;
@@ -107,12 +111,18 @@ public class CarTableModel extends AbstractTableModel {
 		car.setPlate((String) aValue);
 		break;
 	    case FEE:
-		car.setFee(new BigDecimal((String)aValue));
+		car.setFee((BigDecimal) aValue);
 		break;
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
-	fireTableCellUpdated(rowIndex, columnIndex);
+        try {
+            carManager.updateCar(car);
+            fireTableDataChanged();
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }
 
     @Override
@@ -120,9 +130,9 @@ public class CarTableModel extends AbstractTableModel {
 	switch (columnIndex) {
 	    case 1:
 	    case 2:
+            case 3:
 		return true;
 	    case 0:
-	    case 3:
 		return false;
 	    default:
 		throw new IllegalArgumentException("columnIndex");

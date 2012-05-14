@@ -94,7 +94,7 @@ public class Customer {
 
      @Override
     public String toString() {
-	return firstname + " " + lastname + " (" + birth + ") [" + email + ']';
+	return firstname + " " + lastname + " (" + birth + ", " + email +") {" + id + "}";
     }
 
 }

@@ -5,20 +5,19 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.*;
-import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.apache.commons.dbcp.BasicDataSource;
-
-import javax.swing.*;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.Currency;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableColumn;
+import org.apache.commons.dbcp.BasicDataSource;
 
 /**
  *
@@ -27,6 +26,8 @@ import javax.swing.table.TableColumn;
 public class Autorental extends javax.swing.JFrame {
 
     BasicDataSource basicDataSource = new BasicDataSource();
+    private static final Logger LOGGER = Logger.getLogger(Autorental.class.getName());
+    private String action;
     
     RentManager rentManager;
     CustomerManager customerManager;
@@ -42,10 +43,11 @@ public class Autorental extends javax.swing.JFrame {
 	@Override
 	protected Void doInBackground() throws Exception {
 	    rentTableModel = (RentTableModel) rents_table.getModel();
+            rentTableModel.setRentManager(rentManager);
             int counter = 0;
 	    for (Rent rent : rentManager.findAllRents()) {
                 counter++;
-                Thread.sleep(30);
+                Thread.sleep(70);
 		publish(rent);
                 setProgress(counter);
 	    }
@@ -66,13 +68,13 @@ public class Autorental extends javax.swing.JFrame {
             rentsSwingWorker = null;
         }
     }
-    
     private CustomersSwingWorker customersSwingWorker;
     private class CustomersSwingWorker extends SwingWorker<Void, Customer> {
 
 	@Override
 	protected Void doInBackground() throws Exception {
 	    customerTableModel = (CustomerTableModel) customers_table.getModel();
+            customerTableModel.setCustomerManager(customerManager);
             int counter = 0;
 	    for (Customer customer : customerManager.findAllCustomers()) {
                 counter++;
@@ -97,13 +99,13 @@ public class Autorental extends javax.swing.JFrame {
             customersSwingWorker = null;
         }
     }
-    
     private CarsSwingWorker carsSwingWorker;
     private class CarsSwingWorker extends SwingWorker<Void, Car> {
 
 	@Override
 	protected Void doInBackground() throws Exception {
 	    carTableModel = (CarTableModel) cars_table.getModel();
+            carTableModel.setCarManager(carManager);
             int counter = 0;
 	    for (Car car : carManager.findAllCars()) {
                 counter++;
@@ -129,41 +131,51 @@ public class Autorental extends javax.swing.JFrame {
         }
     }
     
-    
-    
+    private void setUp() throws Exception {
+        Properties configFile = new Properties();
+        configFile.load(new FileInputStream("src/config.properties"));
+	BasicDataSource bds = new BasicDataSource();
+	bds.setUrl( configFile.getProperty( "url" ) );
+	bds.setPassword( configFile.getProperty( "password" ) );
+	bds.setUsername( configFile.getProperty( "username" ) );
+	basicDataSource = bds;
+    }
 
     public Autorental() {
-//        Locale locale_cs = new Locale("cs");
-//        Locale locale_en = new Locale("en");
-//        Locale locale_sk = new Locale("sk");
-//        
-//        Locale.setDefault(new Locale("cs"));
-
         
-//        NumberFormat locale_cs_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_cs);
-//        locale_cs_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
-//        NumberFormat locale_en_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_en);
-//        locale_en_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
-//        NumberFormat locale_sk_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_sk);
-//        locale_sk_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
-//        
-//        DateFormat locale_cs_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
-//        DateFormat locale_en_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
-//        DateFormat locale_sk_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+        try {
+            setUp();
+        } catch (Exception ex) {
+	    String msg = "Application setup failed.";
+            LOGGER.log(Level.SEVERE, msg, ex);
+        }
         
-//        ResourceBundle localization = ResourceBundle.getBundle("localization", Locale.getDefault());
+        /* Number and date formats */
+        /*
+        Locale locale_cs = new Locale("cs");
+        Locale locale_en = new Locale("en");
+        Locale locale_sk = new Locale("sk");
+        */
+        /*
+        NumberFormat locale_cs_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_cs);
+        locale_cs_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
+        NumberFormat locale_en_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_en);
+        locale_en_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
+        NumberFormat locale_sk_numberFormatCurrency = NumberFormat.getCurrencyInstance(locale_sk);
+        locale_sk_numberFormatCurrency.setCurrency(Currency.getInstance("Kč"));
         
+        DateFormat locale_cs_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+        DateFormat locale_en_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+        DateFormat locale_sk_dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale_cs);
+        
+        ResourceBundle localization = ResourceBundle.getBundle("localization", Locale.getDefault());
+        */
         
 	initComponents();
 	
-	basicDataSource.setUrl("jdbc:derby://localhost:1527/autorental");
-	basicDataSource.setUsername("app");
-	basicDataSource.setPassword("app");
-        
         rentManager	= new RentManagerImpl(basicDataSource);
         customerManager = new CustomerManagerImpl(basicDataSource);
         carManager	= new CarManagerImpl(basicDataSource);
-
         
         rentsSwingWorker = new RentsSwingWorker();
         rentsSwingWorker.addPropertyChangeListener(rentsProgressListener);
@@ -178,7 +190,7 @@ public class Autorental extends javax.swing.JFrame {
         carsSwingWorker.execute();
     }
     
-    
+    /* SwingWorkers Progress Linsteners */
     private PropertyChangeListener rentsProgressListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -257,7 +269,6 @@ public class Autorental extends javax.swing.JFrame {
         dialog_cars_feeInput = new javax.swing.JTextField();
         dialog_cars_submit = new javax.swing.JButton();
         dialog_cars_cancel = new javax.swing.JButton();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         header = new javax.swing.JPanel();
         header_title = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
@@ -549,11 +560,6 @@ public class Autorental extends javax.swing.JFrame {
         dialog_cars_modelLabel.setText(bundle.getString("Autorental.dialog_cars_modelLabel.text")); // NOI18N
 
         dialog_cars_modelInput.setPreferredSize(new java.awt.Dimension(200, 28));
-        dialog_cars_modelInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dialog_cars_modelInputActionPerformed(evt);
-            }
-        });
 
         dialog_cars_plateLabel.setText(bundle.getString("Autorental.dialog_cars_plateLabel.text")); // NOI18N
 
@@ -631,19 +637,6 @@ public class Autorental extends javax.swing.JFrame {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jInternalFrame1.setVisible(true);
-
-        org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 829));
 
@@ -701,6 +694,11 @@ public class Autorental extends javax.swing.JFrame {
         });
 
         rents_delete.setText(bundle.getString("Autorental.rents_delete.text")); // NOI18N
+        rents_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rents_deleteActionPerformed(evt);
+            }
+        });
 
         rents_title.setFont(rents_title.getFont().deriveFont(rents_title.getFont().getStyle() | java.awt.Font.BOLD, rents_title.getFont().getSize()+6));
         rents_title.setText(bundle.getString("Autorental.rents_title.text")); // NOI18N
@@ -769,8 +767,18 @@ public class Autorental extends javax.swing.JFrame {
         });
 
         customers_update.setText(bundle.getString("Autorental.customers_update.text")); // NOI18N
+        customers_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customers_updateActionPerformed(evt);
+            }
+        });
 
         customers_delete.setText(bundle.getString("Autorental.customers_delete.text")); // NOI18N
+        customers_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customers_deleteActionPerformed(evt);
+            }
+        });
 
         customers_title.setFont(customers_title.getFont().deriveFont(customers_title.getFont().getStyle() | java.awt.Font.BOLD, customers_title.getFont().getSize()+6));
         customers_title.setText(bundle.getString("Autorental.customers_title.text")); // NOI18N
@@ -856,6 +864,11 @@ public class Autorental extends javax.swing.JFrame {
         });
 
         cars_delete.setText(bundle.getString("Autorental.cars_delete.text")); // NOI18N
+        cars_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cars_deleteActionPerformed(evt);
+            }
+        });
 
         cars_title.setFont(cars_title.getFont().deriveFont(cars_title.getFont().getStyle() | java.awt.Font.BOLD, cars_title.getFont().getSize()+6));
         cars_title.setText(bundle.getString("Autorental.cars_title.text")); // NOI18N
@@ -944,46 +957,101 @@ public class Autorental extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dialog_cars_modelInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_cars_modelInputActionPerformed
-	// TODO add your handling code here:
-    }//GEN-LAST:event_dialog_cars_modelInputActionPerformed
-
     private void dialog_cars_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_cars_cancelActionPerformed
 	dialog_cars.setVisible(false);
     }//GEN-LAST:event_dialog_cars_cancelActionPerformed
 
     private void dialog_cars_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_cars_submitActionPerformed
-	Car car = new Car();
+        Car car = new Car();
+        /* Model */
 	car.setModel(dialog_cars_modelInput.getText());
+        /* Plate */
 	car.setPlate(dialog_cars_plateInput.getText());
-	car.setFee(BigDecimal.valueOf(Double.parseDouble(dialog_cars_feeInput.getText())).setScale(2));
-	carManager.addCar(car);
-	carTableModel.addCar(car);
-	dialog_cars_modelInput.setText("");
-	dialog_cars_plateInput.setText("");
-	dialog_cars_feeInput.setText("");
+        /* Fee */
+        try {
+            car.setFee(BigDecimal.valueOf(Double.parseDouble(dialog_cars_feeInput.getText())).setScale(2));
+        } catch(NumberFormatException e) {
+            String msg = "Car fee wrong format";
+            LOGGER.log(Level.INFO, msg);
+        }
+        
+        try {
+            /* Car ID */
+            if (dialog_cars_idInput.getText().equals("")) { // Add
+                LOGGER.log(Level.INFO, "Adding car");
+                carManager.addCar(car);
+                carTableModel.addCar(car);
+            } else { // Update
+                LOGGER.log(Level.INFO, "Updating car");
+                Long carId = Long.valueOf(dialog_cars_idInput.getText());
+                car.setId(carId);
+                Car carCached = carManager.findCarById(carId);
+                carManager.updateCar(car);
+                carTableModel.removeCar(carCached);
+                carTableModel.addCar(car);
+            }
+            dialog_cars.setVisible(false);
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }//GEN-LAST:event_dialog_cars_submitActionPerformed
 
     private void rents_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rents_addActionPerformed
+        dialog_rents_idInput.setText("");
+        dialog_rents_customerInput.setText("");
+        dialog_rents_customerHelper.setText(java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("Autorental.dialog_rents_customerHelper.text"));
+        dialog_rents_carInput.setText("");
+        dialog_rents_carHelper.setText(java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("Autorental.dialog_rents_carHelper.text"));
+        dialog_rents_fromInput.setText("");
+        dialog_rents_toInput.setText("");
+        dialog_rents_costInput.setText("");
         dialog_rents.pack();
         dialog_rents.setLocationRelativeTo(null);
         dialog_rents.setVisible(true);
     }//GEN-LAST:event_rents_addActionPerformed
 
     private void customers_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_addActionPerformed
+        dialog_customers_idInput.setText("");
+        dialog_customers_firstnameInput.setText("");
+        dialog_customers_lastnameInput.setText("");
+        dialog_customers_birthInput.setText("");
+        dialog_customers_emailInput.setText("");
         dialog_customers.pack();
         dialog_customers.setLocationRelativeTo(null);
         dialog_customers.setVisible(true);
     }//GEN-LAST:event_customers_addActionPerformed
 
     private void cars_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_addActionPerformed
+        dialog_cars_idInput.setText("");
+        dialog_cars_modelInput.setText("");
+        dialog_cars_plateInput.setText("");
+        dialog_cars_feeInput.setText("");
         dialog_cars.pack();
         dialog_cars.setLocationRelativeTo(null);
         dialog_cars.setVisible(true);
     }//GEN-LAST:event_cars_addActionPerformed
 
     private void cars_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_updateActionPerformed
-	// TODO add your handling code here:
+	action = "update";
+        
+        Long car_id = null;
+        try {
+            car_id = (Long) carTableModel.getValueAt(cars_table.getSelectedRow(), 0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return;
+        }
+        
+        Car car = carManager.findCarById(car_id);
+        
+        dialog_cars_idInput.setText(String.valueOf(car.getId()));
+        dialog_cars_modelInput.setText(car.getModel());
+        dialog_cars_plateInput.setText(car.getPlate());
+        dialog_cars_feeInput.setText(String.valueOf(car.getFee()));
+        
+        dialog_cars.pack();
+        dialog_cars.setLocationRelativeTo(null);
+        dialog_cars.setVisible(true);
     }//GEN-LAST:event_cars_updateActionPerformed
 
     private void dialog_cars_idInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_cars_idInputActionPerformed
@@ -999,11 +1067,44 @@ public class Autorental extends javax.swing.JFrame {
     }//GEN-LAST:event_dialog_customers_firstnameInputActionPerformed
 
     private void dialog_customers_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_customers_submitActionPerformed
-	// TODO add your handling code here:
+        Customer customer = new Customer();
+        /* Firstname */
+	customer.setFirstname(dialog_customers_firstnameInput.getText());
+        /* Lastname */
+	customer.setLastname(dialog_customers_lastnameInput.getText());
+        /* E-mail */
+	customer.setEmail(dialog_customers_emailInput.getText());
+        /* Birth */
+        try {
+            customer.setBirth(Date.valueOf(dialog_customers_birthInput.getText()));
+        } catch(IllegalArgumentException e) {
+            String msg = "Customer birth wrong format";
+            LOGGER.log(Level.SEVERE, msg);
+        }
+        try {
+            /* Customer ID */
+            if (dialog_customers_idInput.getText().equals("")) { // Add
+                LOGGER.log(Level.INFO, "Adding customer");
+                customerManager.addCustomer(customer);
+                customerTableModel.addCustomer(customer);
+            } else { // Update
+                LOGGER.log(Level.INFO, "Updating customer");
+                Long customerId = Long.valueOf(dialog_customers_idInput.getText());
+                customer.setId(customerId);
+                Customer customerCached = customerManager.findCustomerById(customerId);
+                customerManager.updateCustomer(customer);
+                customerTableModel.removeCustomer(customerCached);
+                customerTableModel.addCustomer(customer);
+            }
+            dialog_customers.setVisible(false);
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }//GEN-LAST:event_dialog_customers_submitActionPerformed
 
     private void dialog_customers_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_customers_cancelActionPerformed
-	// TODO add your handling code here:
+	dialog_customers.setVisible(false);
     }//GEN-LAST:event_dialog_customers_cancelActionPerformed
 
     private void dialog_rents_idInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_rents_idInputActionPerformed
@@ -1011,15 +1112,67 @@ public class Autorental extends javax.swing.JFrame {
     }//GEN-LAST:event_dialog_rents_idInputActionPerformed
 
     private void dialog_rents_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_rents_submitActionPerformed
-	// TODO add your handling code here:
+	Rent rent = new Rent();
+        rent.setCustomer(customerManager.findCustomerById(Long.parseLong(dialog_rents_customerInput.getText())));
+        rent.setCar(carManager.findCarById(Long.parseLong(dialog_rents_carInput.getText())));
+
+        /* From, To */
+        try {
+            rent.setFrom(Date.valueOf(dialog_rents_fromInput.getText()));
+            rent.setTo(Date.valueOf(dialog_rents_toInput.getText()));
+        } catch (IllegalArgumentException ex) {
+            String msg = "Rent from or to wrong format";
+            LOGGER.log(Level.SEVERE, msg);
+        }
+        /* Cost */
+        try {
+            rent.setCost(BigDecimal.valueOf(Double.parseDouble(dialog_rents_costInput.getText())).setScale(2));
+        } catch (NumberFormatException ex) { // chyba prevodu String -> Double
+            String msg = "Rent cost wrong format";
+            LOGGER.log(Level.SEVERE, msg);
+        }
+        
+        try {
+            /* Rent ID */
+            if (dialog_rents_idInput.getText().equals("")) { // Add
+                LOGGER.log(Level.INFO, "Adding rent");
+                rentManager.addRent(rent);
+                rentTableModel.addRent(rent);
+            } else { // Update
+                LOGGER.log(Level.INFO, "Updating rent");
+                Long rentId = Long.valueOf(dialog_rents_idInput.getText());
+                rent.setId(rentId);
+                Rent rentCached = rentManager.findRentById(rentId);
+                rentManager.updateRent(rent);
+                rentTableModel.removeRent(rentCached);
+                rentTableModel.addRent(rent);
+            }
+            dialog_rents.setVisible(false);
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }//GEN-LAST:event_dialog_rents_submitActionPerformed
 
     private void dialog_rents_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_rents_cancelActionPerformed
-	// TODO add your handling code here:
+	dialog_rents.setVisible(false);
     }//GEN-LAST:event_dialog_rents_cancelActionPerformed
 
     private void dialog_rents_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_rents_calculateActionPerformed
-	// TODO add your handling code here:
+	Rent rent = new Rent();
+        rent.setCar(carManager.findCarById(Long.parseLong(dialog_rents_carInput.getText())));
+
+        /* From, To */
+        try {
+            rent.setFrom(Date.valueOf(dialog_rents_fromInput.getText()));
+            rent.setTo(Date.valueOf(dialog_rents_toInput.getText()));
+        } catch (IllegalArgumentException ex) {
+            String msg = "Rent from or to wrong format";
+            LOGGER.log(Level.SEVERE, msg);
+        }
+        /* Calculate and set cost input */
+        dialog_rents_costInput.setText(rent.calculateCost().toString());
+        
     }//GEN-LAST:event_dialog_rents_calculateActionPerformed
 
     private void dialog_customers_emailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dialog_customers_emailInputActionPerformed
@@ -1095,6 +1248,86 @@ public class Autorental extends javax.swing.JFrame {
         carsSwingWorker.addPropertyChangeListener(carsProgressListener);
         carsSwingWorker.execute();
     }//GEN-LAST:event_cars_loadActionPerformed
+
+    private void cars_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cars_deleteActionPerformed
+        Long car_id = null;
+        try {
+            car_id = (Long) carTableModel.getValueAt(cars_table.getSelectedRow(), 0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            String msg = "No row selected";
+            LOGGER.log(Level.INFO, msg);
+        }
+        
+        Car car = carManager.findCarById(car_id);
+        try {
+            for (Rent rent : rentManager.findAllCarRents(car)) {
+                rentManager.removeRent(rent);
+                rentTableModel.removeRent(rent);
+	    }
+            carManager.removeCar(car);
+            carTableModel.removeCar(car);
+        } catch (Exception ex) {
+            String msg = "Deleting failed";
+            LOGGER.log(Level.INFO, msg);
+        }
+    }//GEN-LAST:event_cars_deleteActionPerformed
+
+    private void customers_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_updateActionPerformed
+        Long customer_id = (Long) customerTableModel.getValueAt(customers_table.getSelectedRow(), 0);
+        Customer customer = customerManager.findCustomerById(customer_id);
+        dialog_customers_idInput.setText(String.valueOf(customer.getId()));
+        
+        dialog_customers_firstnameInput.setText(String.valueOf(customer.getFirstname()));
+        dialog_customers_lastnameInput.setText(String.valueOf(customer.getLastname()));
+        dialog_customers_birthInput.setText(String.valueOf(customer.getBirth()));
+        dialog_customers_emailInput.setText(String.valueOf(customer.getEmail()));
+        
+        dialog_customers.pack();
+        dialog_customers.setLocationRelativeTo(null);
+        dialog_customers.setVisible(true);
+    }//GEN-LAST:event_customers_updateActionPerformed
+
+    private void customers_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customers_deleteActionPerformed
+        Long customer_id = null;
+        try {
+            customer_id = (Long) customerTableModel.getValueAt(customers_table.getSelectedRow(), 0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            String msg = "No row selected";
+            LOGGER.log(Level.INFO, msg);
+        }
+        
+        Customer customer = customerManager.findCustomerById(customer_id);
+        try {
+            for (Rent rent : rentManager.findAllCustomerRents(customer)) {
+                rentManager.removeRent(rent);
+                rentTableModel.removeRent(rent);
+	    }
+            customerManager.removeCustomer(customer);
+            customerTableModel.removeCustomer(customer);
+        } catch (Exception ex) {
+            String msg = "Deleting failed";
+            LOGGER.log(Level.INFO, msg);
+        }
+    }//GEN-LAST:event_customers_deleteActionPerformed
+
+    private void rents_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rents_deleteActionPerformed
+        Long rent_id = null;
+        try {
+            rent_id = (Long) rentTableModel.getValueAt(rents_table.getSelectedRow(), 0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            String msg = "No row selected";
+            LOGGER.log(Level.INFO, msg);
+        }
+        
+        Rent rent = rentManager.findRentById(rent_id);
+        try {
+            rentManager.removeRent(rent);
+            rentTableModel.removeRent(rent);
+        } catch (Exception ex) {
+            String msg = "Deleting failed";
+            LOGGER.log(Level.INFO, msg);
+        }
+    }//GEN-LAST:event_rents_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1203,7 +1436,6 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JLabel dialog_rents_toLabel;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPanel rents;
     private javax.swing.JButton rents_add;
     private javax.swing.JButton rents_delete;
@@ -1215,3 +1447,4 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JButton rents_update;
     // End of variables declaration//GEN-END:variables
 }
+

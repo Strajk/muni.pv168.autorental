@@ -513,9 +513,6 @@
               <Dimension value="[200, 28]"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dialog_cars_modelInputActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="dialog_cars_plateLabel">
           <Properties>
@@ -566,24 +563,6 @@
           </Events>
         </Component>
       </SubComponents>
-    </Container>
-    <Container class="javax.swing.JInternalFrame" name="jInternalFrame1">
-      <Properties>
-        <Property name="visible" type="boolean" value="true"/>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
     </Container>
   </NonVisualComponents>
   <Properties>
@@ -808,6 +787,9 @@
                   <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.rents_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rents_deleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="rents_title">
               <Properties>
@@ -942,6 +924,9 @@
                   <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_update.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_updateActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="customers_delete">
               <Properties>
@@ -949,6 +934,9 @@
                   <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.customers_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customers_deleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="customers_title">
               <Properties>
@@ -1103,6 +1091,9 @@
                   <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.cars_delete.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cars_deleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="cars_title">
               <Properties>

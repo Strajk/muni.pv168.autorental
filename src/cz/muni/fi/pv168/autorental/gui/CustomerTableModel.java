@@ -1,18 +1,27 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.Customer;
+import cz.muni.fi.pv168.autorental.backend.CustomerManager;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 public class CustomerTableModel extends AbstractTableModel {
- 
+    
+    private static final Logger LOGGER = Logger.getLogger(CustomerTableModel.class.getName());
+    private CustomerManager customerManager;
     private List<Customer> customers = new ArrayList<Customer>();
     private static enum COLUMNS {
         ID, FIRSTNAME, LASTNAME, BIRTH, EMAIL
     }
- 
+
+    public void setCustomerManager(CustomerManager customerManager) {
+        this.customerManager = customerManager;
+    }
+    
     @Override
     public int getRowCount() {
         return customers.size();
@@ -78,14 +87,12 @@ public class CustomerTableModel extends AbstractTableModel {
     
     public void addCustomer(Customer customer) {
 	customers.add(customer);
-	int lastRow = customers.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
         
     public void removeCustomer(Customer customer) {
 	customers.remove(customer);
-	int lastRow = customers.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
     
     public void clear() {
@@ -100,23 +107,32 @@ public class CustomerTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 	Customer customer = customers.get(rowIndex);
-	switch (COLUMNS.values()[columnIndex]) {
-	    case ID:
+	switch (columnIndex) {
+	    case 0:
 		customer.setId((Long) aValue);
 		break;
-	    case FIRSTNAME:
+	    case 1:
 		customer.setFirstname((String) aValue);
 		break;
-	    case LASTNAME:
+	    case 2:
 		customer.setLastname((String) aValue);
 		break;
-	    case BIRTH:
+	    case 3:
 		customer.setBirth(Date.valueOf((String) aValue));
+		break;
+            case 4:
+		customer.setEmail((String) aValue);
 		break;
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
-	fireTableCellUpdated(rowIndex, columnIndex);
+        try {
+            customerManager.updateCustomer(customer);
+            fireTableDataChanged();
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }
 
     @Override

@@ -1,18 +1,28 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.Rent;
+import cz.muni.fi.pv168.autorental.backend.RentManager;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 public class RentTableModel extends AbstractTableModel {
  
+    private static final Logger LOGGER = Logger.getLogger(RentTableModel.class.getName());
+    private RentManager rentManager;
     private List<Rent> rents = new ArrayList<Rent>();
     private static enum COLUMNS {
         ID, CUSTOMER, CAR, FROM, TO, COST
     }
+
+    public void setRentManager(RentManager rentManager) {
+        this.rentManager = rentManager;
+    }
+    
  
     @Override
     public int getRowCount() {
@@ -85,14 +95,12 @@ public class RentTableModel extends AbstractTableModel {
     
     public void addRent(Rent rent) {
 	rents.add(rent);
-	int lastRow = rents.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
     
     public void removeRent(Rent rent) {
 	rents.remove(rent);
-	int lastRow = rents.size() - 1;
-	fireTableRowsInserted(lastRow, lastRow);
+	fireTableDataChanged();
     }
     
     public void clear() {
@@ -120,7 +128,13 @@ public class RentTableModel extends AbstractTableModel {
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}
-	fireTableCellUpdated(rowIndex, columnIndex);
+        try {
+            rentManager.updateRent(rent);
+            fireTableDataChanged();
+        } catch (Exception ex) {
+            String msg = "User request failed";
+            LOGGER.log(Level.INFO, msg);
+        }
     }
 
     @Override

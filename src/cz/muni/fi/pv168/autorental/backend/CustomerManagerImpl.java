@@ -220,10 +220,10 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer == null) {
             throw new IllegalArgumentException("Customer is null.");
         }
-	if (customer.getFirstname() == null) {
+	if (customer.getFirstname().equals("")) {
             throw new ValidationException("First name is null");
         }
-        if (customer.getLastname() == null) {
+        if (customer.getLastname().equals("")) {
             throw new ValidationException("Last name is null");
         }
     }

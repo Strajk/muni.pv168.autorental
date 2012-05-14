@@ -44,7 +44,6 @@ public class RentManagerImpl implements RentManager {
 	    throw new IllegalEntityException(msg);
 	}
 	validate(rent);
-	rent.setCost(rent.calculateCost());
         
         Connection conn = null;
 	PreparedStatement st = null;
