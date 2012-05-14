@@ -584,7 +584,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,61,0,0,4,124"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,61,0,0,4,-74"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -606,13 +606,24 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="header_title" pref="1136" max="32767" attributes="0"/>
+                  <Component id="header_title" pref="918" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sample_customer" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sample_car" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="sample_customer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sample_car" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="header_title" min="-2" pref="30" max="-2" attributes="0"/>
@@ -634,6 +645,26 @@
               <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.header_title.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="sample_customer">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.sample_customer.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sample_customerActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="sample_car">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="cz/muni/fi/pv168/autorental/gui/Bundle.properties" key="Autorental.sample_car.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sample_carActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -680,7 +711,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="rents_scroll" pref="978" max="32767" attributes="0"/>
+                      <Component id="rents_scroll" pref="1036" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="rents_title" alignment="0" pref="140" max="32767" attributes="0"/>
@@ -729,7 +760,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="new RentTableModel()" type="code"/>
                     </Property>
-                    <Property name="autoResizeMode" type="int" value="4" postCode="TableColumn rents_col_id = rents_table.getColumnModel().getColumn(0);&#xa;rents_col_id.setMaxWidth(40);&#xa;TableColumn rents_col_customer = rents_table.getColumnModel().getColumn(1);&#xa;TableColumn rents_col_car = rents_table.getColumnModel().getColumn(2);&#xa;TableColumn rents_col_from = rents_table.getColumnModel().getColumn(3);&#xa;rents_col_from.setMaxWidth(100);&#xa;TableColumn rents_col_to = rents_table.getColumnModel().getColumn(4);&#xa;rents_col_to.setMaxWidth(100);&#xa;TableColumn rents_col_cost = rents_table.getColumnModel().getColumn(5);&#xa;rents_col_cost.setMaxWidth(100);"/>
+                    <Property name="autoResizeMode" type="int" value="4" postCode="TableColumn rents_col_id = rents_table.getColumnModel().getColumn(0);&#xa;rents_col_id.setMaxWidth(40);&#xa;TableColumn rents_col_customer = rents_table.getColumnModel().getColumn(1);&#xa;TableColumn rents_col_car = rents_table.getColumnModel().getColumn(2);&#xa;TableColumn rents_col_from = rents_table.getColumnModel().getColumn(3);&#xa;rents_col_from.setPreferredWidth(100);&#xa;rents_col_from.setMaxWidth(100);&#xa;TableColumn rents_col_to = rents_table.getColumnModel().getColumn(4);&#xa;rents_col_to.setPreferredWidth(100);&#xa;rents_col_to.setMaxWidth(100);&#xa;TableColumn rents_col_cost = rents_table.getColumnModel().getColumn(5);&#xa;rents_col_cost.setMaxWidth(100);"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -824,7 +855,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="customers_scroll" pref="978" max="32767" attributes="0"/>
+                      <Component id="customers_scroll" pref="1036" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="customers_title" alignment="0" pref="140" max="32767" attributes="0"/>
@@ -876,7 +907,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="new CustomerTableModel()" type="code"/>
                     </Property>
-                    <Property name="autoResizeMode" type="int" value="4" postCode="TableColumn customers_col_id = customers_table.getColumnModel().getColumn(0);&#xa;customers_col_id.setMaxWidth(40);&#xa;TableColumn customers_col_firstname = customers_table.getColumnModel().getColumn(1);&#xa;TableColumn customers_col_lastname = customers_table.getColumnModel().getColumn(2);&#xa;TableColumn customers_col_birth = customers_table.getColumnModel().getColumn(3);&#xa;customers_col_birth.setMaxWidth(100);&#xa;TableColumn customers_col_email = customers_table.getColumnModel().getColumn(4);"/>
+                    <Property name="autoResizeMode" type="int" value="4" postCode="TableColumn customers_col_id = customers_table.getColumnModel().getColumn(0);&#xa;customers_col_id.setMaxWidth(40);&#xa;TableColumn customers_col_firstname = customers_table.getColumnModel().getColumn(1);&#xa;TableColumn customers_col_lastname = customers_table.getColumnModel().getColumn(2);&#xa;TableColumn customers_col_birth = customers_table.getColumnModel().getColumn(3);&#xa;customers_col_birth.setPreferredWidth(100);&#xa;customers_col_birth.setMaxWidth(100);&#xa;TableColumn customers_col_email = customers_table.getColumnModel().getColumn(4);"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -981,7 +1012,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="cars_scroll" pref="978" max="32767" attributes="0"/>
+                      <Component id="cars_scroll" pref="1036" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cars_title" alignment="0" pref="140" max="32767" attributes="0"/>

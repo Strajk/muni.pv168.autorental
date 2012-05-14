@@ -30,8 +30,8 @@ public class Autorental {
             LOGGER.log(Level.SEVERE, msg, ex);
         }
 
-	 app.addSomeCars();
-	 app.addSomeCustomers();
+	 // app.addSomeCars();
+	 // app.addSomeCustomers();
 	 app.addSomeRents();
     }
     

@@ -25,14 +25,17 @@ public class Sampler {
     }
     
     public static Customer createSampleCustomer() {
-	String[] FIRSTNAMES = { "Pavel", "PETR", "ONDRA", "JOSEF", "ROMAN" };
+	String[] FIRSTNAMES = { "Pavel", "PEtr", "Ondra", "Josef", "Roman"};
 	String[] LASTNAMES = { "Novák", "Novotný", "Veselý", "Smutný"};
+        
+        String[] DAYS = {"01", "02", "03"};
+        String[] MONTHS = {"10", "11", "12"};
+        String[] YEARS = {"1990", "1991", "1992"};
 
 	Customer customer = new Customer();
 	customer.setFirstname(FIRSTNAMES[RANDOM.nextInt(FIRSTNAMES.length)]);
 	customer.setLastname(LASTNAMES[RANDOM.nextInt(LASTNAMES.length)]);
-	customer.setBirth(Date.valueOf("1990-04-12"));
-	// customer.setBirth(Date.valueOf( (RANDOM.nextInt(2000-1900+1)+1900) + "-" + (RANDOM.nextInt(12-1+1)+1) + "-" + (RANDOM.nextInt(30-1+1)+1)));
+	customer.setBirth( Date.valueOf( YEARS[RANDOM.nextInt(YEARS.length)] + '-' + MONTHS[RANDOM.nextInt(MONTHS.length)] + '-' + DAYS[RANDOM.nextInt(DAYS.length)] ) );
 	customer.setEmail("example@example.com");
 	// http://stackoverflow.com/questions/363681/java-generating-random-number-in-a-range
 	

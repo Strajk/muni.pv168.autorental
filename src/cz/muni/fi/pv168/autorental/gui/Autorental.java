@@ -5,6 +5,7 @@
 package cz.muni.fi.pv168.autorental.gui;
 
 import cz.muni.fi.pv168.autorental.backend.*;
+import cz.muni.fi.pv168.autorental.helpers.Sampler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileInputStream;
@@ -47,7 +48,7 @@ public class Autorental extends javax.swing.JFrame {
             int counter = 0;
 	    for (Rent rent : rentManager.findAllRents()) {
                 counter++;
-                Thread.sleep(70);
+                Thread.sleep(150);
 		publish(rent);
                 setProgress(counter);
 	    }
@@ -109,7 +110,7 @@ public class Autorental extends javax.swing.JFrame {
             int counter = 0;
 	    for (Car car : carManager.findAllCars()) {
                 counter++;
-                Thread.sleep(80);
+                Thread.sleep(100);
 		publish(car);
                 setProgress(counter);
 	    }
@@ -271,6 +272,8 @@ public class Autorental extends javax.swing.JFrame {
         dialog_cars_cancel = new javax.swing.JButton();
         header = new javax.swing.JPanel();
         header_title = new javax.swing.JLabel();
+        sample_customer = new javax.swing.JButton();
+        sample_car = new javax.swing.JButton();
         content = new javax.swing.JPanel();
         rents = new javax.swing.JPanel();
         rents_scroll = new javax.swing.JScrollPane();
@@ -646,17 +649,40 @@ public class Autorental extends javax.swing.JFrame {
         header_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         header_title.setText(bundle.getString("Autorental.header_title.text")); // NOI18N
 
+        sample_customer.setText(bundle.getString("Autorental.sample_customer.text")); // NOI18N
+        sample_customer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sample_customerActionPerformed(evt);
+            }
+        });
+
+        sample_car.setText(bundle.getString("Autorental.sample_car.text")); // NOI18N
+        sample_car.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sample_carActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout headerLayout = new org.jdesktop.layout.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(header_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1136, Short.MAX_VALUE)
+                .add(header_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(sample_customer)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(sample_car)
                 .addContainerGap())
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(headerLayout.createSequentialGroup()
+                .add(headerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(sample_customer)
+                    .add(sample_car))
+                .add(0, 0, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, headerLayout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(header_title, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -672,8 +698,10 @@ public class Autorental extends javax.swing.JFrame {
         TableColumn rents_col_customer = rents_table.getColumnModel().getColumn(1);
         TableColumn rents_col_car = rents_table.getColumnModel().getColumn(2);
         TableColumn rents_col_from = rents_table.getColumnModel().getColumn(3);
+        rents_col_from.setPreferredWidth(100);
         rents_col_from.setMaxWidth(100);
         TableColumn rents_col_to = rents_table.getColumnModel().getColumn(4);
+        rents_col_to.setPreferredWidth(100);
         rents_col_to.setMaxWidth(100);
         TableColumn rents_col_cost = rents_table.getColumnModel().getColumn(5);
         rents_col_cost.setMaxWidth(100);
@@ -716,7 +744,7 @@ public class Autorental extends javax.swing.JFrame {
             rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, rentsLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(rents_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+                .add(rents_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rentsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(rents_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -755,6 +783,7 @@ public class Autorental extends javax.swing.JFrame {
         TableColumn customers_col_firstname = customers_table.getColumnModel().getColumn(1);
         TableColumn customers_col_lastname = customers_table.getColumnModel().getColumn(2);
         TableColumn customers_col_birth = customers_table.getColumnModel().getColumn(3);
+        customers_col_birth.setPreferredWidth(100);
         customers_col_birth.setMaxWidth(100);
         TableColumn customers_col_email = customers_table.getColumnModel().getColumn(4);
         customers_scroll.setViewportView(customers_table);
@@ -803,7 +832,7 @@ public class Autorental extends javax.swing.JFrame {
             customersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, customersLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(customers_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+                .add(customers_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(customersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(customers_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -893,7 +922,7 @@ public class Autorental extends javax.swing.JFrame {
             carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, carsLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(cars_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+                .add(cars_scroll, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(carsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(cars_title, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
@@ -1329,6 +1358,20 @@ public class Autorental extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rents_deleteActionPerformed
 
+    private void sample_carActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sample_carActionPerformed
+        LOGGER.log(Level.INFO, "Adding sample car");
+        Car car = Sampler.createSampleCar();
+        carManager.addCar(car);
+        carTableModel.addCar(car);
+    }//GEN-LAST:event_sample_carActionPerformed
+
+    private void sample_customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sample_customerActionPerformed
+        LOGGER.log(Level.INFO, "Adding sample customer");
+        Customer customer = Sampler.createSampleCustomer();
+        customerManager.addCustomer(customer);
+        customerTableModel.addCustomer(customer);
+    }//GEN-LAST:event_sample_customerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1445,6 +1488,8 @@ public class Autorental extends javax.swing.JFrame {
     private javax.swing.JTable rents_table;
     private javax.swing.JLabel rents_title;
     private javax.swing.JButton rents_update;
+    private javax.swing.JButton sample_car;
+    private javax.swing.JButton sample_customer;
     // End of variables declaration//GEN-END:variables
 }
 
